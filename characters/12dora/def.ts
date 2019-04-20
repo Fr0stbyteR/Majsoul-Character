@@ -16,7 +16,7 @@ export const charDef = {
     exchange_item_num: 75,
     emo: "extendRes/emo/e" + id,
     sound: voiceID,
-    sound_volume: 0.2,
+    sound_volume: 0.4,
     sex: 0,
     desc_stature: "180厘米",
     desc_birth: "3月3日",

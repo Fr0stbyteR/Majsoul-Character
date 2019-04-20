@@ -139,7 +139,7 @@ const inject = () => {
             if (!$voice) $voice = cfg.voice.sound.rows_.length;
             cfg.item_definition.character.map_[char0.id] = char0.charDef;
             cfg.item_definition.character.rows_[$char] = char0.charDef;
-            uiscript.UI_Sushe.characters[$char] = { charid: char0.id, exp: 20000, extra_emoji: [], is_upgraded: true, level: 5, skin: char0.skinID };
+            uiscript.UI_Sushe.characters[$char] = { charid: char0.id, exp: 20000, extra_emoji: char0.emo.length > 9 ? new Array(char0.emo.length - 9).fill(0).map((v, i) => i + 10) : [], is_upgraded: true, level: 5, skin: char0.skinID };
             cfg.item_definition.skin.map_[char0.skinID] = char0.skinDef;
             cfg.item_definition.skin.rows_[$skin] = char0.skinDef;
             cfg.voice.sound.groups_[char0.voiceID] = char0.voiceDef;
