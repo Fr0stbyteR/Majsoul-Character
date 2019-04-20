@@ -1,4 +1,4 @@
-#### 雀魂添加新角色插件模板 ![License](https://img.shields.io/github/license/Fr0stbyteR/majsoul-character.svg)
+# 雀魂添加新角色插件模板 ![License](https://img.shields.io/github/license/Fr0stbyteR/majsoul-character.svg)
 
 ## <b style="color: pink">本项目仅供学习研究使用。未经雀魂官方许可请勿擅自发布新角色插件。</b>
 #### 新角色制作方法
