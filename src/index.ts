@@ -8,6 +8,10 @@ const getCharacter = () => {
         uiscript.UI_Sushe.skin_map[400101 + i * 100] = 1;
     }
 };
+/**
+ * Preload image resources
+ *
+ */
 const loadRes = async () => {
     const img = {} as { [path: string]: string };
     char0.emo.forEach((url, i) => img[char0.charDef.emo + "/" + i + ".png"] = url);
@@ -49,6 +53,10 @@ const inject = () => {
         return;
     }
     loadRes();
+    /**
+     * Override selected character by local data on login
+     *
+     */
     (() => {
         const _ = uiscript.UI_Entrance.prototype._onLoginSuccess;
         uiscript.UI_Entrance.prototype._onLoginSuccess = (...args) => {
@@ -57,6 +65,10 @@ const inject = () => {
             return r;
         }
     })();
+    /**
+     * Store selected skin locally
+     *
+     */
     (() => {
         const _ = uiscript.UI_Sushe.prototype.onChangeSkin;
         uiscript.UI_Sushe.prototype.onChangeSkin = (...args) => {
@@ -66,15 +78,10 @@ const inject = () => {
             return r;
         }
     })();
-    (() => {
-        const _ = uiscript.UI_Sushe.prototype.onChangeSkin;
-        uiscript.UI_Sushe.prototype.onChangeSkin = (...args) => {
-            const r = _.call(uiscript.UI_Sushe.Inst, ...args);
-            avatar_id = args[0];
-            localStorage.setItem("avatar_id", avatar_id.toString());
-            return r;
-        }
-    })();
+    /**
+     * Store selected character locally
+     *
+     */
     (() => {
         const _ = uiscript.UI_Sushe_Select.prototype.onClickAtHead;
         uiscript.UI_Sushe_Select.prototype.onClickAtHead = (...args) => {
@@ -89,6 +96,10 @@ const inject = () => {
             return r;
         }
     })();
+    /**
+     * Override selected skin and char on refreshing data from server
+     *
+     */
     (() => {
         const _ = function (this: GameManager) {
             app.NetAgent.sendReq2Lobby("Lobby", "fetchAccountInfo", {}, (i, n) => {
@@ -114,6 +125,10 @@ const inject = () => {
             return r;
         }
     })();
+    /**
+     * Adding new character to definition
+     *
+     */
     (() => {
         let $char: number, $skin: number, $voice: number;
         const _ = GameMgr.prototype.EnterLobby;
@@ -136,6 +151,10 @@ const inject = () => {
             return r;
         }
     })();
+    /**
+     * Override users character in waiting room
+     *
+     */
     (() => {
         const _ = uiscript.UI_WaitingRoom.prototype.updateData;
         uiscript.UI_WaitingRoom.prototype.updateData = (...args) => {
@@ -148,6 +167,10 @@ const inject = () => {
             return r;
         }
     })();
+    /**
+     * Override users character on ending a game
+     *
+     */
     (() => {
         const _ = game.Scene_MJ.prototype.GameEnd;
         game.Scene_MJ.prototype.GameEnd = (...args) => {
@@ -157,6 +180,10 @@ const inject = () => {
             return r;
         }
     })();
+    /**
+     * Override users character on game beginning
+     *
+     */
     (() => {
         const _ = game.Scene_MJ.prototype.openMJRoom;
         game.Scene_MJ.prototype.openMJRoom = (...args) => {
@@ -174,6 +201,10 @@ const inject = () => {
             return r;
         }
     })();
+    /**
+     * Use blobs for voices, strip suffix
+     *
+     */
     (() => {
         const _ = Laya.SoundManager.playSound;
         Laya.SoundManager.playSound = (...args) => {
@@ -285,6 +316,10 @@ const inject = () => {
             return r;
         }
     })();*/
+    /**
+     * Override users character in user detail page
+     *
+     */
     (() => {
         const _ = function (this: OtherPlayerInfoUI) {
             this.level.id = 0,
@@ -451,6 +486,6 @@ const inject = () => {
         }
     })();
     */
-    console.log("Majsoul-12dora injected.");
+    console.log("Majsoul-Character injected.");
 }
 inject();
