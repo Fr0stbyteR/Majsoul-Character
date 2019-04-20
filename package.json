@@ -10,6 +10,7 @@
     "majsoul",
     "mod"
   ],
+  "repository": "https://github.com/Fr0stbyteR/Majsoul-Character",
   "author": "Fr0stbyteR",
   "license": "WTFPL",
   "devDependencies": {
