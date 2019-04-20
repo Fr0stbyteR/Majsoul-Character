@@ -1,0 +1,26 @@
+{
+  "name": "majsoul-character",
+  "version": "0.0.1",
+  "description": "new characters for Majsoul",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "webpack --mode development"
+  },
+  "keywords": [
+    "majsoul",
+    "mod"
+  ],
+  "author": "Fr0stbyteR",
+  "license": "WTFPL",
+  "devDependencies": {
+    "ts-loader": "^5.3.3",
+    "tslint": "^5.16.0",
+    "tslint-config-airbnb": "^5.11.1",
+    "tslint-eslint-rules": "^5.4.0",
+    "typescript": "^3.4.3",
+    "url-loader": "^1.1.2",
+    "webpack": "^4.30.0",
+    "webpack-cli": "^3.3.0"
+  },
+  "dependencies": {}
+}
