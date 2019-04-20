@@ -1016,4 +1016,4 @@ export const voiceDef = [{
     level_limit: 0,
     time_length: 1200,
     path: "audio/sound/" + name + "/gameend_jiuzhongjiupai"
-}]
+}];

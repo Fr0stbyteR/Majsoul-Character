@@ -37,13 +37,14 @@ const loadRes = () => {
             resImage.blob_url = t,
             resImage.loaded = true,
             resImage.success = true;
-            for (let i = 0; i < resImage.complete.length; i++)
+            for (let i = 0; i < resImage.complete.length; i++) {
                 resImage.complete && resImage.complete[i].run();
-            resImage.complete = []
+            }
+            resImage.complete = [];
         }, [url]), null, Laya.Loader.IMAGE);
         game.LoadMgr._resimage[resImage.origin_url] = resImage;
     }
-}
+};
 
 let avatar_id = +localStorage.getItem("avatar_id");
 let char_id = +localStorage.getItem("char_id");
@@ -63,7 +64,7 @@ const inject = () => {
             const r = _.call(uiscript.UI_Entrance.Inst, ...args);
             if (avatar_id) GameMgr.Inst.account_data.avatar_id = avatar_id;
             return r;
-        }
+        };
     })();
     /**
      * Store selected skin locally
@@ -76,7 +77,7 @@ const inject = () => {
             avatar_id = args[0];
             localStorage.setItem("avatar_id", avatar_id.toString());
             return r;
-        }
+        };
     })();
     /**
      * Store selected character locally
@@ -94,7 +95,7 @@ const inject = () => {
             }
             const r = _.call(uiscript.UI_Sushe.Inst.page_select_character, ...args);
             return r;
-        }
+        };
     })();
     /**
      * Override selected skin and char on refreshing data from server
@@ -103,27 +104,30 @@ const inject = () => {
     (() => {
         const _ = function (this: GameManager) {
             app.NetAgent.sendReq2Lobby("Lobby", "fetchAccountInfo", {}, (i, n) => {
-                if (i || n.error)
+                if (i || n.error) {
                     uiscript.UIMgr.Inst.showNetReqError("fetchAccountInfo", i, n);
-                else {
+                } else {
                     app.Log.log("UpdateAccount: " + JSON.stringify(n)),
                     this.account_refresh_time = Laya.timer.currTimer;
-                    for (var key in n.account)
+                    for (const key in n.account) {
                         if (this.account_data[key] = n.account[key],
-                        "platform_diamond" == key)
-                            for (var a = n.account[key], s = 0; s < a.length; s++)
+                        "platform_diamond" === key) {
+                            for (let a = n.account[key], s = 0; s < a.length; s++) {
                                 this.account_numerical_resource[a[s].id] = a[s].count;
+                            }
+                        }
+                    }
                     if (char_id) uiscript.UI_Sushe.main_character_id = char_id;
                     if (avatar_id) this.account_data.avatar_id = avatar_id;
                     uiscript.UI_Lobby.Inst.refreshInfo(),
-                    n.account.room_id && this.updateRoom()
+                    n.account.room_id && this.updateRoom();
                 }
-            })
+            });
         };
         GameMgr.prototype.updateAccountInfo = (...args) => {
             const r = _.call(GameMgr.Inst, ...args);
             return r;
-        }
+        };
     })();
     /**
      * Adding new character to definition
@@ -139,7 +143,7 @@ const inject = () => {
             if (!$voice) $voice = cfg.voice.sound.rows_.length;
             cfg.item_definition.character.map_[char0.id] = char0.charDef;
             cfg.item_definition.character.rows_[$char] = char0.charDef;
-            uiscript.UI_Sushe.characters[$char] = { charid: char0.id, exp: 20000, extra_emoji: char0.emo.length > 9 ? new Array(char0.emo.length - 9).fill(0).map((v, i) => i + 10) : [], is_upgraded: true, level: 5, skin: char0.skinID };
+            uiscript.UI_Sushe.characters[$char] = { charid: char0.id, exp: 20000, extra_emoji: char0.emo.length > 9 ? Array(char0.emo.length - 9).fill(0).map((v, i) => i + 10) : [], is_upgraded: true, level: 5, skin: char0.skinID };
             cfg.item_definition.skin.map_[char0.skinID] = char0.skinDef;
             cfg.item_definition.skin.rows_[$skin] = char0.skinDef;
             cfg.voice.sound.groups_[char0.voiceID] = char0.voiceDef;
@@ -149,7 +153,7 @@ const inject = () => {
             if (char_id) uiscript.UI_Sushe.main_character_id = char_id;
             const r = _.call(GameMgr.Inst, ...args);
             return r;
-        }
+        };
     })();
     /**
      * Override users character in waiting room
@@ -162,10 +166,10 @@ const inject = () => {
             if (avatar_id) {
                 uiscript.UI_WaitingRoom.Inst.players.forEach((player) => {
                     if (player.account_id === GameMgr.Inst.account_data.account_id) player.avatar_id = GameMgr.Inst.account_data.avatar_id;
-                })
+                });
             }
             return r;
-        }
+        };
     })();
     /**
      * Override users character on ending a game
@@ -178,7 +182,7 @@ const inject = () => {
             if (avatar_id) GameMgr.Inst.account_data.avatar_id = avatar_id;
             const r = _.call(game.Scene_MJ.Inst, ...args);
             return r;
-        }
+        };
     })();
     /**
      * Override users character on game beginning
@@ -195,11 +199,11 @@ const inject = () => {
                         const curChar = uiscript.UI_Sushe.main_chara_info;
                         player.character = Object.assign(player.character, curChar);
                     }
-                })
+                });
             }
             const r = _.call(game.Scene_MJ.Inst, ...args);
             return r;
-        }
+        };
     })();
     /**
      * Use blobs for voices, strip suffix
@@ -212,8 +216,9 @@ const inject = () => {
             if (url.match(/blob\:/)) args[0] = url.replace(/\.\w{3}$/, "");
             const r = _.call(Laya.SoundManager, ...args);
             return r;
-        }
-    })();/*
+        };
+    })();
+    /*
     (() => {
         const _ = Laya.loader.load;
         Laya.loader.load = (...args) => {
@@ -330,9 +335,9 @@ const inject = () => {
             app.NetAgent.sendReq2Lobby("Lobby", "fetchAccountInfo", {
                 account_id: this.account_id
             }, (i, n) => {
-                if (i || n.error)
+                if (i || n.error) {
                     uiscript.UIMgr.Inst.showNetReqError("fetchAccountInfo", i, n);
-                else {
+                } else {
                     const player = n.account;
                     this.label_name.text = player.nickname,
                     this.title.id = player.title,
@@ -340,15 +345,15 @@ const inject = () => {
                     this.level.exp = player.level.score,
                     this.illust.me.visible = !0,
                     this.illust.setSkin(player.account_id === GameMgr.Inst.account_data.account_id ? GameMgr.Inst.account_data.avatar_id : player.avatar_id, "waitingroom"),
-                    this.account_id == GameMgr.Inst.account_id || null != game.FriendMgr.find(this.account_id) ? this.btn_addfriend.visible = !1 : this.btn_addfriend.visible = !0,
-                    this.note.sign.setSign(player.signature)
+                    this.account_id === GameMgr.Inst.account_id || null != game.FriendMgr.find(this.account_id) ? this.btn_addfriend.visible = !1 : this.btn_addfriend.visible = !0,
+                    this.note.sign.setSign(player.signature);
                 }
-            })
+            });
         };
         uiscript.UI_OtherPlayerInfo.prototype.refreshBaseInfo = (...args) => {
             const r = _.call(uiscript.UI_OtherPlayerInfo.Inst, ...args);
             return r;
-        }
+        };
     })();
     /*
     (() => {
@@ -486,6 +491,6 @@ const inject = () => {
         }
     })();
     */
-    console.log("Majsoul-Character injected.");
-}
+    console.log("Majsoul-Character injected."); // tslint:disable-line: no-console
+};
 inject();
