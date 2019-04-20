@@ -9,7 +9,8 @@
 2. 得到新角色的资源文件并整理妥当
 3. 请参考 `./characters/12dora/` 目录下 `def.ts` 与 `exports.ts` 进行配置。本项目使用 `webpack-url-loader` 将所有资源文件内联编译到 `js` 文件中，在 `exports.ts` 文件中可以找到所有导入文件的定义，它们均为 `string` 类型的 `DataURI`.
 4. `index.ts` 将会对雀魂的代码进行注入，并添加导入的人物。
-5. 打包代码
+5. 使用 `webpack` 的 `Banner` 插件添加新的 `userscript` 头
+6. 打包代码
     ```
     npm run build
     ```
