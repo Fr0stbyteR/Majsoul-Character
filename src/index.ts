@@ -12,7 +12,7 @@ const getCharacter = () => {
  * Preload image resources
  *
  */
-const loadRes = async () => {
+const loadRes = () => {
     const img = {} as { [path: string]: string };
     char0.emo.forEach((url, i) => img[char0.charDef.emo + "/" + i + ".png"] = url);
     for (const key in char0.skin) {

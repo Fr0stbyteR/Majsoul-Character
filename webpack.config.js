@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const banner = require("./local/banner.js");
 
 const config = {
   entry: './src/index.ts',
@@ -40,17 +41,16 @@ const config = {
   },
   plugins: [
     new webpack.BannerPlugin({
-        raw: true,
-        banner: `// ==UserScript==
-// @name         Majsoul-12dora
+        banner: banner || `// ==UserScript==
+// @name         Majsoul-Character
 // @namespace    http://tampermonkey.net/
-// @version      0.5
-// @description  12dora mod in Majsoul
+// @version      0.1
+// @description  Character mod for Majsoul
 // @author       Fr0stbyteR
 // @match        https://majsoul.union-game.com/0/
 // @grant        none
-// @downloadURL  http://86.248.141.45/Majsoul-Character/dist/index.user.js
-// ==/UserScript==`
+// ==/UserScript==`,
+        raw: true,
     })
   ]
 };
