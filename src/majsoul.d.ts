@@ -220,6 +220,10 @@ declare var uiscript: {
     UI_Sushe_Select: {
         prototype: SusheSelectUI;
     };
+    UI_Sushe_Visit: {
+        Inst: SusheVisitUI
+        prototype: SusheVisitUI;
+    };
     UI_WaitingRoom: {
         Inst: WaitingRoomUI;
         prototype: WaitingRoomUI;
@@ -275,6 +279,13 @@ declare class EntranceUI extends MajsoulUI {
 declare class SusheSelectUI extends MajsoulUI {
     select_index: number;
     onClickAtHead(...args: any[]): any;
+}
+declare class SusheVisitUI extends MajsoulUI {
+    page_effect: {
+        chara_info: Character,
+        on_change_view(...args: any[]): any;
+    }
+    onCreate(...args: any[]): any;
 }
 declare class WaitingRoomUI extends MajsoulUI {
     players: Account[];

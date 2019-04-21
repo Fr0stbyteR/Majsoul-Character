@@ -48,6 +48,10 @@ const loadRes = () => {
 
 let avatar_id = +localStorage.getItem("avatar_id");
 let char_id = +localStorage.getItem("char_id");
+let char_views = [] as { slot: number, item_id: number }[];
+try {
+    char_views = JSON.parse(localStorage.getItem("char_views"));
+} catch (e) {}
 const inject = () => {
     if (typeof uiscript === "undefined" || !uiscript.UI_Entrance || !uiscript.UI_Sushe || !uiscript.UI_Sushe_Select || !uiscript.UI_OtherPlayerInfo) {
         setTimeout(inject, 1000);
@@ -98,6 +102,26 @@ const inject = () => {
         };
     })();
     /**
+     * Store character effects locally
+     *
+     */
+    (() => {
+        const _ = uiscript.UI_Sushe_Visit.prototype.onCreate;
+        uiscript.UI_Sushe_Visit.prototype.onCreate = (...args) => {
+            const r = _.call(uiscript.UI_Sushe_Visit.Inst, ...args);
+            const __ = uiscript.UI_Sushe_Visit.Inst.page_effect.on_change_view;
+            uiscript.UI_Sushe_Visit.Inst.page_effect.on_change_view = (...args) => {
+                const r = __.call(uiscript.UI_Sushe_Visit.Inst.page_effect, ...args);
+                if (char_id && uiscript.UI_Sushe_Visit.Inst.page_effect.chara_info.charid === char_id) {
+                    char_views = uiscript.UI_Sushe_Visit.Inst.page_effect.chara_info.views;
+                    localStorage.setItem("char_views", JSON.stringify(char_views));
+                }
+                return r;
+            };
+            return r;
+        };
+    })();
+    /**
      * Override selected skin and char on refreshing data from server
      *
      */
@@ -143,7 +167,7 @@ const inject = () => {
             if (!$voice) $voice = cfg.voice.sound.rows_.length;
             cfg.item_definition.character.map_[char0.id] = char0.charDef;
             cfg.item_definition.character.rows_[$char] = char0.charDef;
-            uiscript.UI_Sushe.characters[$char] = { charid: char0.id, exp: 20000, extra_emoji: char0.emo.length > 9 ? Array(char0.emo.length - 9).fill(0).map((v, i) => i + 10) : [], is_upgraded: true, level: 5, skin: char0.skinID };
+            uiscript.UI_Sushe.characters[$char] = { charid: char0.id, exp: 20000, extra_emoji: char0.emo.length > 9 ? Array(char0.emo.length - 9).fill(0).map((v, i) => i + 10) : [], is_upgraded: true, level: 5, skin: char0.skinID, views: char_views };
             cfg.item_definition.skin.map_[char0.skinID] = char0.skinDef;
             cfg.item_definition.skin.rows_[$skin] = char0.skinDef;
             cfg.voice.sound.groups_[char0.voiceID] = char0.voiceDef;
