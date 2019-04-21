@@ -180,7 +180,7 @@ const inject = () => {
         };
     })();
     /**
-     * Override users character in waiting room
+     * Override user character in waiting room
      *
      */
     (() => {
@@ -196,7 +196,7 @@ const inject = () => {
         };
     })();
     /**
-     * Override users character on ending a game
+     * Override user character on ending a game
      *
      */
     (() => {
@@ -209,7 +209,7 @@ const inject = () => {
         };
     })();
     /**
-     * Override users character on game beginning
+     * Override user character on game beginning
      *
      */
     (() => {
@@ -242,26 +242,36 @@ const inject = () => {
             return r;
         };
     })();
-    /*
+    /**
+     * Allows loader to preload voices on game beginning
+     *
+     */
     (() => {
+        const voices = Object.keys(char0.voice).map(key => char0.voice[key]);
         const _ = Laya.loader.load;
         Laya.loader.load = (...args) => {
             if (typeof args[0] === "string") {
-                const url = args[0];
-                if (url.match(/blob\:/)) args[0] = url.replace(/\.\w{3}$/, "");
-            }
+                if (args[0].match(/blob\:/)) {
+                    const url = args[0].replace(/\.\w{3}$/, "");
+                    if (voices.indexOf(url) !== -1) {
+                        args[0] = url;
+                        args[3] = "sound";
+                    }
+                }
+            }/*
             if (Array.isArray(args[0])) {
                 args[0] = args[0].map((url) => {
                     if (typeof url === "string") {
-                        if (url.match(/blob\:/)) return url.replace(/\.\w{3}$/, "");
+                        if (url.match(/blob\:/)) {
+                        }
                     }
                     return url;
-                })
-            }
+                });
+            }*/
             const r = _.call(Laya.loader, ...args);
             return r;
-        }
-    })();*/
+        };
+    })();
     /*
     (() => {
         const _ = function (this: AudioManager, t: string, e: number, i: any) {
