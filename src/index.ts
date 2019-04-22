@@ -1,5 +1,6 @@
 /// <reference path="./LayaAir.d.ts" />
 /// <reference path="./majsoul.d.ts" />
+/// <reference path="./index.d.ts" />
 import * as char0 from "../characters/12dora/exports";
 const getCharacter = () => {
     for (let i = 0; i <= 7; i++) {
@@ -8,15 +9,17 @@ const getCharacter = () => {
         uiscript.UI_Sushe.skin_map[400101 + i * 100] = 1;
     }
 };
+const newCharacters = [char0] as NewCharacter[];
 /**
  * Preload image resources
  *
  */
-const loadRes = () => {
+const loadRes = (newChar: NewCharacter) => {
     const img = {} as { [path: string]: string };
-    char0.emo.forEach((url, i) => img[char0.charDef.emo + "/" + i + ".png"] = url);
-    for (const key in char0.skin) {
-        img[char0.skinDef.path + "/" + key + ".png"] = char0.skin[key];
+    const prefix = GameMgr.client_language ? GameMgr.client_language + "/" : "";
+    newChar.emo.forEach((url, i) => img[prefix + newChar.charDef.emo + "/" + i + ".png"] = url);
+    for (const key in newChar.skin) {
+        img[prefix + newChar.skinDef.path + "/" + key + ".png"] = newChar.skin[key];
     }
     for (const key in img) {
         const url = img[key];
@@ -45,7 +48,21 @@ const loadRes = () => {
         game.LoadMgr._resimage[resImage.origin_url] = resImage;
     }
 };
-
+/**
+ * Add character into definition
+ *
+ */
+const injectChar = (newChar: NewCharacter, $char: number, $skin: number, $voice: number) => {
+    cfg.item_definition.character.map_[newChar.id] = newChar.charDef;
+    cfg.item_definition.character.rows_[$char] = newChar.charDef;
+    uiscript.UI_Sushe.characters[$char] = { charid: newChar.id, exp: 20000, extra_emoji: newChar.emo.length > 9 ? Array(newChar.emo.length - 9).fill(0).map((v, i) => i + 10) : [], is_upgraded: true, level: 5, skin: newChar.skinID, views: char_views };
+    cfg.item_definition.skin.map_[newChar.skinID] = newChar.skinDef;
+    cfg.item_definition.skin.rows_[$skin] = newChar.skinDef;
+    cfg.voice.sound.groups_[newChar.voiceID] = newChar.voiceDef;
+    for (let i = 0; i < newChar.voiceDef.length; i++) {
+        cfg.voice.sound.rows_[$voice + i] = newChar.voiceDef[i];
+    }
+};
 let avatar_id = +localStorage.getItem("avatar_id");
 let char_id = +localStorage.getItem("char_id");
 let char_views = [] as { slot: number, item_id: number }[];
@@ -57,7 +74,7 @@ const inject = () => {
         setTimeout(inject, 1000);
         return;
     }
-    loadRes();
+    newCharacters.forEach(char => loadRes(char));
     /**
      * Override selected character by local data on login
      *
@@ -165,14 +182,11 @@ const inject = () => {
             if (!$char) $char = uiscript.UI_Sushe.characters.length;
             if (!$skin) $skin = cfg.item_definition.skin.rows_.length;
             if (!$voice) $voice = cfg.voice.sound.rows_.length;
-            cfg.item_definition.character.map_[char0.id] = char0.charDef;
-            cfg.item_definition.character.rows_[$char] = char0.charDef;
-            uiscript.UI_Sushe.characters[$char] = { charid: char0.id, exp: 20000, extra_emoji: char0.emo.length > 9 ? Array(char0.emo.length - 9).fill(0).map((v, i) => i + 10) : [], is_upgraded: true, level: 5, skin: char0.skinID, views: char_views };
-            cfg.item_definition.skin.map_[char0.skinID] = char0.skinDef;
-            cfg.item_definition.skin.rows_[$skin] = char0.skinDef;
-            cfg.voice.sound.groups_[char0.voiceID] = char0.voiceDef;
-            for (let i = 0; i < char0.voiceDef.length; i++) {
-                cfg.voice.sound.rows_[$voice + i] = char0.voiceDef[i];
+            for (const char of newCharacters) {
+                injectChar(char, $char, $skin, $voice);
+                $char++;
+                $skin++;
+                $voice++;
             }
             if (char_id) uiscript.UI_Sushe.main_character_id = char_id;
             const r = _.call(GameMgr.Inst, ...args);

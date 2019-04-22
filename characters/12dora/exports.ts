@@ -136,7 +136,6 @@ const toBlob = (dataURI: string) => {
 };
 
 const voice = { act_chi, act_kan, act_pon, act_babei, act_drich, act_rich, act_ron, act_tumo, game_top, lobby_selfintro, lobby_playerlogin, lobby_playerlogin_max, lobby_normal1, lobby_normal2, lobby_normal3, lobby_normal4, lobby_normal5, lobby_normalmax1, lobby_normalmax2, lobby_normalmax3, lobby_gift, lobby_gift_favor, lobby_levelup1, lobby_levelup2, lobby_levelup3, lobby_levelmax, fan_qianggang, fan_lingshang, fan_haidi, fan_hedi, fan_dong, fan_nan, fan_xi, fan_bei, fan_zhong, fan_bai, fan_fa, fan_doubledong, fan_doublenan, fan_doublexi, fan_doublebei, fan_duanyao, fan_yibeikou, fan_pinghu, fan_hunquandaiyaojiu, fan_yiqitongguan, fan_sansetongshun, fan_sansetongke, fan_sangangzi, fan_duiduihu, fan_sananke, fan_xiaosanyuan, fan_hunlaotou, fan_qiduizi, fan_chunquandaiyaojiu, fan_hunyise, fan_erbeikou, fan_qingyise, fan_liqi, fan_dliqi, fan_zimo, fan_yifa, fan_dora1, fan_dora2, fan_dora3, fan_dora4, fan_dora5, fan_dora6, fan_dora7, fan_dora8, fan_dora9, fan_dora10, fan_dora11, fan_dora12, fan_dora13, fan_tianhu, fan_dihu, fan_dasanyuan, fan_sianke, fan_siankedanqi, fan_ziyise, fan_lvyise, fan_qinglaotou, fan_guoshiwushuang, fan_guoshishisanmian, fan_xiaosixi, fan_dasixi, fan_sigangzi, fan_jiulianbaodeng, fan_chunzhengjiulianbaodeng, fan_liujumanguan, gameend_manguan, gameend_tiaoman, gameend_beiman, gameend_sanbeiman, gameend_leijiyiman, gameend_yiman1, gameend_yiman2, gameend_yiman3, gameend_yiman4, gameend_yiman5, gameend_yiman6, gameend_tingpai, gameend_noting, gameend_sigangliuju, gameend_sifenglianda, gameend_jiuzhongjiupai } as { [key: string]: any };
-const voiceDataURI = { ...voice };
 for (const key in voice) {
     voice[key] = URL.createObjectURL(new Blob([toBlob(voice[key])], { type: "audio/mpeg" }));
 }
@@ -152,4 +151,4 @@ for (const key in skin) {
 const emoURI = [emo_00, emo_01, emo_02, emo_03, emo_04, emo_05, emo_06, emo_07, emo_08] as any[];
 const emo = emoURI.map(e => URL.createObjectURL(new Blob([toBlob(e)], { type: "image/png" })));
 
-export { name, id, skinID, voiceID, charDef, skinDef, voiceDef, skin, emo, voice, voiceDataURI };
+export { name, id, skinID, voiceID, charDef, skinDef, voiceDef, skin, emo, voice };

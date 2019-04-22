@@ -95,8 +95,9 @@ declare class SceneMJ {
     GameEnd(...args: any[]): any;
 }
 declare var GameMgr: {
-    Inst: GameManager
-    prototype: GameManager
+    Inst: GameManager;
+    prototype: GameManager;
+    client_language: string;
 }
 declare class GameManager {
     account_data: Account;
@@ -135,6 +136,9 @@ declare var cfg: {
 declare class CharacterDef {
     id: number;
     name: string;
+    name_chs: string;
+    name_en: string;
+    name_jp: string;
     open: number;
     init_skin: number;
     full_fetter_skin: number;
@@ -149,18 +153,45 @@ declare class CharacterDef {
     sound_volume: number;
     sex: number;
     desc_stature: string;
+    desc_stature_chs: string;
+    desc_stature_en: string;
+    desc_stature_jp: string;
     desc_birth: string;
+    desc_birth_chs: string;
+    desc_birth_en: string;
+    desc_birth_jp: string;
     desc_age: string;
+    desc_age_chs: string;
+    desc_age_en: string;
+    desc_age_jp: string;
     desc_bloodtype: string;
+    desc_bloodtype_chs: string;
+    desc_bloodtype_en: string;
+    desc_bloodtype_jp: string;
     desc_cv: string;
+    desc_cv_chs: string;
+    desc_cv_en: string;
+    desc_cv_jp: string;
     desc_hobby: string;
+    desc_hobby_chs: string;
+    desc_hobby_en: string;
+    desc_hobby_jp: string;
     desc: string;
+    desc_chs: string;
+    desc_en: string;
+    desc_jp: string;
     skin_lib: number[];
 }
 declare class VoiceDef {
     id: number;
     name: string;
+    name_chs: string;
+    name_en: string;
+    name_jp: string;
     words: string;
+    words_chs: string;
+    words_en: string;
+    words_jp: string;
     category: number;
     type: string;
     level_limit: number;
@@ -175,9 +206,18 @@ declare class AudioDef {
 declare class SkinDef {
     id: number;
     name: string;
+    name_chs: string;
+    name_en: string;
+    name_jp: string;
     desc: string;
+    desc_chs: string;
+    desc_en: string;
+    desc_jp: string;
     character_id: number;
     lock_tips: string;
+    lock_tips_chs: string;
+    lock_tips_en: string;
+    lock_tips_jp: string;
     path: string;
     exchange_item_id: number;
     exchange_item_num: number;
