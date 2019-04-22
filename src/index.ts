@@ -261,7 +261,8 @@ const inject = () => {
      *
      */
     (() => {
-        const voices = Object.keys(char0.voice).map(key => char0.voice[key]);
+        const voices = [] as string[];
+        newCharacters.forEach(char => Object.keys(char.voice).forEach(k => voices.push(char.voice[k])));
         const _ = Laya.loader.load;
         Laya.loader.load = (...args) => {
             if (typeof args[0] === "string") {
