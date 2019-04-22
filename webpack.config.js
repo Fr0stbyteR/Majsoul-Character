@@ -48,6 +48,8 @@ const config = {
 // @description  Character mod for Majsoul
 // @author       Fr0stbyteR
 // @match        https://majsoul.union-game.com/0/
+// @match        https://game.mahjongsoul.com/
+// @match        https://mahjongsoul.game.yo-star.com/
 // @grant        none
 // ==/UserScript==`,
         raw: true,
