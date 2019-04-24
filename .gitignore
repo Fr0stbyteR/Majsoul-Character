@@ -91,3 +91,7 @@ local/
 *.png
 *.mp3
 dist/
+
+# Demo
+manifest.json
+characters.json
