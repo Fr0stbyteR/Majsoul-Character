@@ -12,6 +12,7 @@ const getCharacter = () => {
     }
 };
 const newCharacters = [] as NewCharacter[];
+const voiceURLMap = {} as { [key: string]: string };
 const fetchNewChars = () => {
     fetch(SERVER + "characters.json")
     .then(response => response.json())
@@ -29,7 +30,7 @@ const fetchNewChars = () => {
     });
 };
 const toURL = (fileName: string, charName: string, type: "emo" | "skin" | "voice") => {
-    return SERVER + charName + "/" + type + "/" + fileName + (type === "emo" || "skin" ? ".png" : ".mp3");
+    return SERVER + charName + "/" + type + "/" + fileName + (type === "emo" || type === "skin" ? ".png" : ".mp3");
 };
 /**
  * Preload image resources
@@ -59,7 +60,7 @@ const loadRes = (newChar: NewCharacter) => {
             complete: any[],
             success: boolean
         };
-        Laya.loader.load(url, Laya.Handler.create(game.LoadMgr, (t: any) => {
+        Laya.loader.load(url, Laya.Handler.create(game.LoadMgr, (t: any) => { // bypass decode encoded image
             resImage.blob_url = t,
             resImage.loaded = true,
             resImage.success = true;
@@ -70,6 +71,7 @@ const loadRes = (newChar: NewCharacter) => {
         }, [url]), null, Laya.Loader.IMAGE);
         game.LoadMgr._resimage[resImage.origin_url] = resImage;
     }
+    newChar.voice.forEach(voiceDef => voiceDef.path = toURL(voiceDef.path.split("/").reverse()[0], newChar.character.name, "voice").replace(/\.mp3$/, ""));
 };
 /**
  * Add character into definition
