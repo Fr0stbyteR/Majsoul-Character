@@ -17,7 +17,7 @@
         "emo": "extendRes/emo/e300104",
         "sound": 104,
         "sound_volume": 0.4,
-        "sex": 0,
+        "sex": 1,
         "desc_stature": "164厘米",
         "desc_stature_chs": "164厘米",
         "desc_stature_en": "164cm",
