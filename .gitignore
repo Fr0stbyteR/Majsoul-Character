@@ -91,3 +91,8 @@ local/
 *.png
 *.mp3
 dist/
+
+# server
+*.*
+src/
+!characters/
