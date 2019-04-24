@@ -87,12 +87,5 @@ $RECYCLE.BIN/
 # Local files
 local/
 
-# Licenced files
-*.png
-*.mp3
 dist/
-
-# server
-*.*
 src/
-!characters/*/*.*
