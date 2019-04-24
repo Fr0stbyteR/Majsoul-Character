@@ -1,7 +1,6 @@
 /// <reference path="./LayaAir.d.ts" />
 /// <reference path="./majsoul.d.ts" />
 /// <reference path="./index.d.ts" />
-import * as char0 from "../characters/12dora/exports";
 const getCharacter = () => {
     for (let i = 0; i <= 7; i++) {
         uiscript.UI_Sushe.characters[i] = { charid: 200001 + i, exp: 20000, extra_emoji: [10, 11, 12, 13], is_upgraded: true, level: 5, skin: 400102 + i * 100 };
@@ -9,7 +8,7 @@ const getCharacter = () => {
         uiscript.UI_Sushe.skin_map[400101 + i * 100] = 1;
     }
 };
-const newCharacters = [char0] as NewCharacter[];
+const newCharacters = [] as NewCharacter[];
 /**
  * Preload image resources
  *

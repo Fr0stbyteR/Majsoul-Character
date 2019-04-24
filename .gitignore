@@ -91,3 +91,4 @@ local/
 *.png
 *.mp3
 dist/
+characters/
