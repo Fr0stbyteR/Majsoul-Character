@@ -87,6 +87,6 @@ $RECYCLE.BIN/
 # Local files
 local/
 
-dist/
-src/
-example/
+dist
+src
+example
