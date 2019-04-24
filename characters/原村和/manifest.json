@@ -15,7 +15,7 @@
         "exchange_item_id": 302002,
         "exchange_item_num": 75,
         "emo": "extendRes/emo/e300101",
-        "sound": 100,
+        "sound": 101,
         "sound_volume": 0.4,
         "sex": 0,
         "desc_stature": "155厘米",
@@ -84,7 +84,7 @@
         "face_y": 239
     },
     "voice": [{
-        "id": 100,
+        "id": 101,
         "name": "吃",
         "name_chs": "吃",
         "name_en": "Chii",
@@ -99,7 +99,7 @@
         "time_length": 500,
         "path": "audio/sound/原村和/voice/act_chi"
     }, {
-        "id": 100,
+        "id": 101,
         "name": "杠",
         "name_chs": "杠",
         "name_en": "Kan (Call for Quad)",
@@ -114,7 +114,7 @@
         "time_length": 500,
         "path": "audio/sound/原村和/voice/act_kan"
     }, {
-        "id": 100,
+        "id": 101,
         "name": "碰",
         "name_chs": "碰",
         "name_en": "Pon (Call for Triplet)",
@@ -129,7 +129,7 @@
         "time_length": 500,
         "path": "audio/sound/原村和/voice/act_pon"
     }, {
-        "id": 100,
+        "id": 101,
         "name": "两立直",
         "name_chs": "两立直",
         "name_en": "Double Riichi",
@@ -144,7 +144,7 @@
         "time_length": 500,
         "path": "audio/sound/原村和/voice/act_drich"
     }, {
-        "id": 100,
+        "id": 101,
         "name": "立直",
         "name_chs": "立直",
         "name_en": "Riichi",
@@ -159,7 +159,7 @@
         "time_length": 500,
         "path": "audio/sound/原村和/voice/act_rich"
     }, {
-        "id": 100,
+        "id": 101,
         "name": "荣",
         "name_chs": "荣",
         "name_en": "Ron",
@@ -174,7 +174,7 @@
         "time_length": 500,
         "path": "audio/sound/原村和/voice/act_ron"
     }, {
-        "id": 100,
+        "id": 101,
         "name": "自摸",
         "name_chs": "自摸",
         "name_en": "Tsumo",
