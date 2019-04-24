@@ -13,15 +13,18 @@ const getCharacter = () => {
 };
 const newCharacters = [] as NewCharacter[];
 const fetchNewChars = () => {
-    const newCharacterNames = ["12dora"];
-    newCharacterNames.forEach((name, i) => {
-        fetch(SERVER + name + "/manifest.json")
-        .then(response => response.json())
-        .then((char) => {
-            newCharacters.push(char);
-            if (i === newCharacterNames.length - 1) newCharactersReady = true;
-        }).catch(() => {
-            if (i === newCharacterNames.length - 1) newCharactersReady = true;
+    fetch(SERVER + "characters.json")
+    .then(response => response.json())
+    .then((newCharacterNames: string[]) => {
+        newCharacterNames.forEach((name, i) => {
+            fetch(SERVER + name + "/manifest.json")
+            .then(response => response.json())
+            .then((char: NewCharacter) => {
+                newCharacters.push(char);
+                if (i === newCharacterNames.length - 1) newCharactersReady = true;
+            }).catch(() => {
+                if (i === newCharacterNames.length - 1) newCharactersReady = true;
+            });
         });
     });
 };
