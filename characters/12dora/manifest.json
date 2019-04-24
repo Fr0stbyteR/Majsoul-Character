@@ -1,5 +1,5 @@
 {
-    "characterDef": {
+    "character": {
         "id": 300001,
         "name": "12dora",
         "name_chs": "12dora",
@@ -48,7 +48,7 @@
         "desc_jp": "七对子能力者。人称大当家，12team创始人。",
         "skin_lib": [0, 0, 0]
     },
-    "skinDef": {
+    "skin": {
         "name": "12dora",
         "name_chs": "12dora",
         "name_en": "12dora",
@@ -83,7 +83,7 @@
         "face_x": 1281,
         "face_y": 239
     },
-    "voiceDef": [{
+    "voice": [{
         "id": 9,
         "name": "吃",
         "name_chs": "吃",
