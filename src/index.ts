@@ -1,6 +1,9 @@
 /// <reference path="./LayaAir.d.ts" />
 /// <reference path="./majsoul.d.ts" />
 /// <reference path="./index.d.ts" />
+const SERVER = "https://fr0stbyter.github.io/Majsoul-Character/characters/";
+let newCharactersReady = false;
+let charactersReady = false;
 const getCharacter = () => {
     for (let i = 0; i <= 7; i++) {
         uiscript.UI_Sushe.characters[i] = { charid: 200001 + i, exp: 20000, extra_emoji: [10, 11, 12, 13], is_upgraded: true, level: 5, skin: 400102 + i * 100 };
@@ -9,6 +12,23 @@ const getCharacter = () => {
     }
 };
 const newCharacters = [] as NewCharacter[];
+const fetchNewChars = () => {
+    const newCharacterNames = ["12dora"];
+    newCharacterNames.forEach((name, i) => {
+        fetch(SERVER + name + "/manifest.json")
+        .then(response => response.json())
+        .then((char) => {
+            newCharacters.push(char);
+            loadRes(char);
+            if (i === newCharacterNames.length - 1) newCharactersReady = true;
+        }).catch(() => {
+            if (i === newCharacterNames.length - 1) newCharactersReady = true;
+        });
+    });
+};
+const toURL = (fileName: string, charName: string, type: "emo" | "skin" | "voice") => {
+    return SERVER + charName + "/" + type + "/" + fileName + (type === "emo" || "skin" ? ".png" : ".mp3");
+};
 /**
  * Preload image resources
  *
@@ -16,9 +36,11 @@ const newCharacters = [] as NewCharacter[];
 const loadRes = (newChar: NewCharacter) => {
     const img = {} as { [path: string]: string };
     const prefix = GameMgr.client_language ? GameMgr.client_language + "/" : "";
-    newChar.emo.forEach((url, i) => img[prefix + newChar.charDef.emo + "/" + i + ".png"] = url);
-    for (const key in newChar.skin) {
-        img[prefix + newChar.skinDef.path + "/" + key + ".png"] = newChar.skin[key];
+    for (let i = 0; i < 13; i++) {
+        img[prefix + newChar.char.emo + "/" + i + ".png"] = toURL(i.toString(), newChar.char.name, "emo");
+    }
+    for (const key of ["bighead", "full", "half", "smallhead", "waitingroom"]) {
+        img[prefix + newChar.skin.path + "/" + key + ".png"] = toURL(key, newChar.char.name, "emo");
     }
     for (const key in img) {
         const url = img[key];
@@ -52,14 +74,18 @@ const loadRes = (newChar: NewCharacter) => {
  *
  */
 const injectChar = (newChar: NewCharacter, $char: number, $skin: number, $voice: number) => {
-    cfg.item_definition.character.map_[newChar.id] = newChar.charDef;
-    cfg.item_definition.character.rows_[$char] = newChar.charDef;
-    uiscript.UI_Sushe.characters[$char] = { charid: newChar.id, exp: 20000, extra_emoji: newChar.emo.length > 9 ? Array(newChar.emo.length - 9).fill(0).map((v, i) => i + 10) : [], is_upgraded: true, level: 5, skin: newChar.skinID, views: char_views };
-    cfg.item_definition.skin.map_[newChar.skinID] = newChar.skinDef;
-    cfg.item_definition.skin.rows_[$skin] = newChar.skinDef;
-    cfg.voice.sound.groups_[newChar.voiceID] = newChar.voiceDef;
-    for (let i = 0; i < newChar.voiceDef.length; i++) {
-        cfg.voice.sound.rows_[$voice + i] = newChar.voiceDef[i];
+    if (!charactersReady || !newCharactersReady) {
+        setTimeout(injectChar, 1000, newChar, $char, $skin, $voice);
+        return;
+    }
+    cfg.item_definition.character.map_[newChar.char.id] = newChar.char;
+    cfg.item_definition.character.rows_[$char] = newChar.char;
+    uiscript.UI_Sushe.characters[$char] = { charid: newChar.char.id, exp: 20000, extra_emoji: [9, 10, 11, 12], is_upgraded: true, level: 5, skin: newChar.skin.id, views: char_views };
+    cfg.item_definition.skin.map_[newChar.skin.id] = newChar.skin;
+    cfg.item_definition.skin.rows_[$skin] = newChar.skin;
+    cfg.voice.sound.groups_[newChar.char.sound] = newChar.voice;
+    for (let i = 0; i < newChar.voice.length; i++) {
+        cfg.voice.sound.rows_[$voice + i] = newChar.voice[i];
     }
 };
 let avatar_id = +localStorage.getItem("avatar_id");
@@ -69,11 +95,11 @@ try {
     char_views = JSON.parse(localStorage.getItem("char_views"));
 } catch (e) {}
 const inject = () => {
-    if (typeof uiscript === "undefined" || !uiscript.UI_Entrance || !uiscript.UI_Sushe || !uiscript.UI_Sushe_Select || !uiscript.UI_OtherPlayerInfo) {
+    if (!charactersReady || typeof uiscript === "undefined" || !uiscript.UI_Entrance || !uiscript.UI_Sushe || !uiscript.UI_Sushe_Select || !uiscript.UI_OtherPlayerInfo) {
         setTimeout(inject, 1000);
         return;
     }
-    newCharacters.forEach(char => loadRes(char));
+    fetchNewChars();
     /**
      * Override selected character by local data on login
      *
@@ -261,7 +287,7 @@ const inject = () => {
      */
     (() => {
         const voices = [] as string[];
-        newCharacters.forEach(char => Object.keys(char.voice).forEach(k => voices.push(char.voice[k])));
+        // newCharacters.forEach(char => Object.keys(char.voice).forEach(k => voices.push(char.voice[k])));
         const _ = Laya.loader.load;
         Laya.loader.load = (...args) => {
             if (typeof args[0] === "string") {

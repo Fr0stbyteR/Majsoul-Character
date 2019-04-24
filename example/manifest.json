@@ -1,5 +1,5 @@
 {
-    "characterDef": {
+    "character": {
         "id": 300001,
         "name": "12dora",
         "name_chs": "12dora",
@@ -14,7 +14,7 @@
         "can_marry": 1,
         "exchange_item_id": 302002,
         "exchange_item_num": 75,
-        "emo": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/emo",
+        "emo": "extendRes/emo/e300001",
         "sound": 9,
         "sound_volume": 0.4,
         "sex": 0,
@@ -48,7 +48,7 @@
         "desc_jp": "七对子能力者。人称大当家，12team创始人。",
         "skin_lib": [0, 0, 0]
     },
-    "skinDef": {
+    "skin": {
         "name": "12dora",
         "name_chs": "12dora",
         "name_en": "12dora",
@@ -63,7 +63,7 @@
         "lock_tips_chs": "",
         "lock_tips_en": "",
         "lock_tips_jp": "",
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/skin",
+        "path": "extendRes/charactor/12dora",
         "exchange_item_id": 302002,
         "exchange_item_num": 60,
         "full_height": 2672,
@@ -83,7 +83,7 @@
         "face_x": 1281,
         "face_y": 239
     },
-    "voiceDef": [{
+    "voice": [{
         "id": 9,
         "name": "吃",
         "name_chs": "吃",
@@ -97,7 +97,7 @@
         "type": "act_chi",
         "level_limit": 0,
         "time_length": 1000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/act_chi"
+        "path": "audio/sound/12dora/act_chi"
     }, {
         "id": 9,
         "name": "杠",
@@ -112,7 +112,7 @@
         "type": "act_kan",
         "level_limit": 0,
         "time_length": 2000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/act_kan"
+        "path": "audio/sound/12dora/act_kan"
     }, {
         "id": 9,
         "name": "碰",
@@ -127,7 +127,7 @@
         "type": "act_pon",
         "level_limit": 0,
         "time_length": 1000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/act_pon"
+        "path": "audio/sound/12dora/act_pon"
     }, {
         "id": 9,
         "name": "拔北",
@@ -142,7 +142,7 @@
         "type": "act_babei",
         "level_limit": 0,
         "time_length": 1000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/act_babei"
+        "path": "audio/sound/12dora/act_babei"
     }, {
         "id": 9,
         "name": "两立直",
@@ -157,7 +157,7 @@
         "type": "act_drich",
         "level_limit": 0,
         "time_length": 2500,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/act_drich"
+        "path": "audio/sound/12dora/act_drich"
     }, {
         "id": 9,
         "name": "立直",
@@ -172,7 +172,7 @@
         "type": "act_rich",
         "level_limit": 0,
         "time_length": 2500,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/act_rich"
+        "path": "audio/sound/12dora/act_rich"
     }, {
         "id": 9,
         "name": "荣",
@@ -187,7 +187,7 @@
         "type": "act_ron",
         "level_limit": 0,
         "time_length": 1000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/act_ron"
+        "path": "audio/sound/12dora/act_ron"
     }, {
         "id": 9,
         "name": "自摸",
@@ -202,7 +202,7 @@
         "type": "act_tumo",
         "level_limit": 0,
         "time_length": 1000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/act_tumo"
+        "path": "audio/sound/12dora/act_tumo"
     }, {
         "id": 9,
         "name": "终局一位语音",
@@ -217,7 +217,7 @@
         "type": "game_top",
         "level_limit": 1,
         "time_length": 4000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/game_top"
+        "path": "audio/sound/12dora/game_top"
     }, {
         "id": 9,
         "name": "获得语音",
@@ -232,7 +232,7 @@
         "type": "lobby_selfintro",
         "level_limit": 0,
         "time_length": 1000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/lobby_selfintro"
+        "path": "audio/sound/12dora/lobby_selfintro"
     }, {
         "id": 9,
         "name": "登录语音普通",
@@ -247,7 +247,7 @@
         "type": "lobby_playerlogin",
         "level_limit": 0,
         "time_length": 1000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/lobby_playerlogin"
+        "path": "audio/sound/12dora/lobby_playerlogin"
     }, {
         "id": 9,
         "name": "登录语音满羁绊",
@@ -262,7 +262,7 @@
         "type": "lobby_playerlogin",
         "level_limit": 5,
         "time_length": 1000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/lobby_playerlogin_max"
+        "path": "audio/sound/12dora/lobby_playerlogin_max"
     }, {
         "id": 9,
         "name": "大厅交互语音1",
@@ -277,7 +277,7 @@
         "type": "lobby_normal",
         "level_limit": 0,
         "time_length": 1000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/lobby_normal1"
+        "path": "audio/sound/12dora/lobby_normal1"
     }, {
         "id": 9,
         "name": "大厅交互语音2",
@@ -292,7 +292,7 @@
         "type": "lobby_normal",
         "level_limit": 0,
         "time_length": 1000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/lobby_normal2"
+        "path": "audio/sound/12dora/lobby_normal2"
     }, {
         "id": 9,
         "name": "大厅交互语音3",
@@ -307,7 +307,7 @@
         "type": "lobby_normal",
         "level_limit": 1,
         "time_length": 1000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/lobby_normal3"
+        "path": "audio/sound/12dora/lobby_normal3"
     }, {
         "id": 9,
         "name": "大厅交互语音4",
@@ -322,7 +322,7 @@
         "type": "lobby_normal",
         "level_limit": 2,
         "time_length": 1000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/lobby_normal4"
+        "path": "audio/sound/12dora/lobby_normal4"
     }, {
         "id": 9,
         "name": "大厅交互语音5",
@@ -337,7 +337,7 @@
         "type": "lobby_normal",
         "level_limit": 3,
         "time_length": 1000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/lobby_normal5"
+        "path": "audio/sound/12dora/lobby_normal5"
     }, {
         "id": 9,
         "name": "大厅交互语音6",
@@ -352,7 +352,7 @@
         "type": "lobby_normal",
         "level_limit": 4,
         "time_length": 1000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/lobby_normalmax1"
+        "path": "audio/sound/12dora/lobby_normalmax1"
     }, {
         "id": 9,
         "name": "大厅交互语音7",
@@ -367,7 +367,7 @@
         "type": "lobby_normal",
         "level_limit": 5,
         "time_length": 1000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/lobby_normalmax2"
+        "path": "audio/sound/12dora/lobby_normalmax2"
     }, {
         "id": 9,
         "name": "大厅交互语音8",
@@ -382,7 +382,7 @@
         "type": "lobby_normal",
         "level_limit": 5,
         "time_length": 1000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/lobby_normalmax3"
+        "path": "audio/sound/12dora/lobby_normalmax3"
     }, {
         "id": 9,
         "name": "送礼物语音普通",
@@ -397,7 +397,7 @@
         "type": "lobby_gift",
         "level_limit": 0,
         "time_length": 1000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/lobby_gift"
+        "path": "audio/sound/12dora/lobby_gift"
     }, {
         "id": 9,
         "name": "送礼物语音喜好",
@@ -412,7 +412,7 @@
         "type": "lobby_gift_favor",
         "level_limit": 0,
         "time_length": 1000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/lobby_gift_favor"
+        "path": "audio/sound/12dora/lobby_gift_favor"
     }, {
         "id": 9,
         "name": "好感度升级语音1",
@@ -427,7 +427,7 @@
         "type": "lobby_levelup1",
         "level_limit": 2,
         "time_length": 1000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/lobby_levelup1"
+        "path": "audio/sound/12dora/lobby_levelup1"
     }, {
         "id": 9,
         "name": "好感度升级语音2",
@@ -442,7 +442,7 @@
         "type": "lobby_levelup2",
         "level_limit": 3,
         "time_length": 1000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/lobby_levelup2"
+        "path": "audio/sound/12dora/lobby_levelup2"
     }, {
         "id": 9,
         "name": "好感度升级语音3",
@@ -457,7 +457,7 @@
         "type": "lobby_levelup3",
         "level_limit": 4,
         "time_length": 1000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/lobby_levelup3"
+        "path": "audio/sound/12dora/lobby_levelup3"
     }, {
         "id": 9,
         "name": "好感度升级语音4",
@@ -472,7 +472,7 @@
         "type": "lobby_levelmax",
         "level_limit": 5,
         "time_length": 1000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/lobby_levelmax"
+        "path": "audio/sound/12dora/lobby_levelmax"
     }, {
         "id": 9,
         "name": "枪杠",
@@ -487,7 +487,7 @@
         "type": "fan_qianggang",
         "level_limit": 5,
         "time_length": 1200,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_qianggang"
+        "path": "audio/sound/12dora/fan_qianggang"
     }, {
         "id": 9,
         "name": "岭上开花",
@@ -502,7 +502,7 @@
         "type": "fan_lingshang",
         "level_limit": 5,
         "time_length": 1500,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_lingshang"
+        "path": "audio/sound/12dora/fan_lingshang"
     }, {
         "id": 9,
         "name": "海底摸月",
@@ -517,7 +517,7 @@
         "type": "fan_haidi",
         "level_limit": 5,
         "time_length": 1500,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_haidi"
+        "path": "audio/sound/12dora/fan_haidi"
     }, {
         "id": 9,
         "name": "河底捞鱼",
@@ -532,7 +532,7 @@
         "type": "fan_hedi",
         "level_limit": 5,
         "time_length": 1500,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_hedi"
+        "path": "audio/sound/12dora/fan_hedi"
     }, {
         "id": 9,
         "name": "东",
@@ -547,7 +547,7 @@
         "type": "fan_dong",
         "level_limit": 5,
         "time_length": 600,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_dong"
+        "path": "audio/sound/12dora/fan_dong"
     }, {
         "id": 9,
         "name": "南",
@@ -562,7 +562,7 @@
         "type": "fan_nan",
         "level_limit": 5,
         "time_length": 600,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_nan"
+        "path": "audio/sound/12dora/fan_nan"
     }, {
         "id": 9,
         "name": "西",
@@ -577,7 +577,7 @@
         "type": "fan_xi",
         "level_limit": 5,
         "time_length": 600,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_xi"
+        "path": "audio/sound/12dora/fan_xi"
     }, {
         "id": 9,
         "name": "北",
@@ -592,7 +592,7 @@
         "type": "fan_bei",
         "level_limit": 5,
         "time_length": 600,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_bei"
+        "path": "audio/sound/12dora/fan_bei"
     }, {
         "id": 9,
         "name": "中",
@@ -607,7 +607,7 @@
         "type": "fan_zhong",
         "level_limit": 5,
         "time_length": 600,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_zhong"
+        "path": "audio/sound/12dora/fan_zhong"
     }, {
         "id": 9,
         "name": "白",
@@ -622,7 +622,7 @@
         "type": "fan_bai",
         "level_limit": 5,
         "time_length": 600,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_bai"
+        "path": "audio/sound/12dora/fan_bai"
     }, {
         "id": 9,
         "name": "发",
@@ -637,7 +637,7 @@
         "type": "fan_fa",
         "level_limit": 5,
         "time_length": 600,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_fa"
+        "path": "audio/sound/12dora/fan_fa"
     }, {
         "id": 9,
         "name": "连东",
@@ -652,7 +652,7 @@
         "type": "fan_doubledong",
         "level_limit": 5,
         "time_length": 1000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_doubledong"
+        "path": "audio/sound/12dora/fan_doubledong"
     }, {
         "id": 9,
         "name": "连南",
@@ -667,7 +667,7 @@
         "type": "fan_doublenan",
         "level_limit": 5,
         "time_length": 1000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_doublenan"
+        "path": "audio/sound/12dora/fan_doublenan"
     }, {
         "id": 9,
         "name": "连西",
@@ -682,7 +682,7 @@
         "type": "fan_doublexi",
         "level_limit": 5,
         "time_length": 1000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_doublexi"
+        "path": "audio/sound/12dora/fan_doublexi"
     }, {
         "id": 9,
         "name": "连北",
@@ -697,7 +697,7 @@
         "type": "fan_doublebei",
         "level_limit": 5,
         "time_length": 1000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_doublebei"
+        "path": "audio/sound/12dora/fan_doublebei"
     }, {
         "id": 9,
         "name": "断幺",
@@ -712,7 +712,7 @@
         "type": "fan_duanyao",
         "level_limit": 5,
         "time_length": 1000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_duanyao"
+        "path": "audio/sound/12dora/fan_duanyao"
     }, {
         "id": 9,
         "name": "一杯口",
@@ -727,7 +727,7 @@
         "type": "fan_yibeikou",
         "level_limit": 5,
         "time_length": 1500,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_yibeikou"
+        "path": "audio/sound/12dora/fan_yibeikou"
     }, {
         "id": 9,
         "name": "平和",
@@ -742,7 +742,7 @@
         "type": "fan_pinghu",
         "level_limit": 5,
         "time_length": 1000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_pinghu"
+        "path": "audio/sound/12dora/fan_pinghu"
     }, {
         "id": 9,
         "name": "混全带幺九",
@@ -757,7 +757,7 @@
         "type": "fan_hunquandaiyaojiu",
         "level_limit": 5,
         "time_length": 1000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_hunquandaiyaojiu"
+        "path": "audio/sound/12dora/fan_hunquandaiyaojiu"
     }, {
         "id": 9,
         "name": "一气通贯",
@@ -772,7 +772,7 @@
         "type": "fan_yiqitongguan",
         "level_limit": 5,
         "time_length": 1000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_yiqitongguan"
+        "path": "audio/sound/12dora/fan_yiqitongguan"
     }, {
         "id": 9,
         "name": "三色同顺",
@@ -787,7 +787,7 @@
         "type": "fan_sansetongshun",
         "level_limit": 5,
         "time_length": 1500,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_sansetongshun"
+        "path": "audio/sound/12dora/fan_sansetongshun"
     }, {
         "id": 9,
         "name": "三色同刻",
@@ -802,7 +802,7 @@
         "type": "fan_sansetongke",
         "level_limit": 5,
         "time_length": 1500,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_sansetongke"
+        "path": "audio/sound/12dora/fan_sansetongke"
     }, {
         "id": 9,
         "name": "三杠子",
@@ -817,7 +817,7 @@
         "type": "fan_sangangzi",
         "level_limit": 5,
         "time_length": 1200,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_sangangzi"
+        "path": "audio/sound/12dora/fan_sangangzi"
     }, {
         "id": 9,
         "name": "对对和",
@@ -832,7 +832,7 @@
         "type": "fan_duiduihu",
         "level_limit": 5,
         "time_length": 1000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_duiduihu"
+        "path": "audio/sound/12dora/fan_duiduihu"
     }, {
         "id": 9,
         "name": "三暗刻",
@@ -847,7 +847,7 @@
         "type": "fan_sananke",
         "level_limit": 5,
         "time_length": 1200,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_sananke"
+        "path": "audio/sound/12dora/fan_sananke"
     }, {
         "id": 9,
         "name": "小三元",
@@ -862,7 +862,7 @@
         "type": "fan_xiaosanyuan",
         "level_limit": 5,
         "time_length": 1200,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_xiaosanyuan"
+        "path": "audio/sound/12dora/fan_xiaosanyuan"
     }, {
         "id": 9,
         "name": "混老头",
@@ -877,7 +877,7 @@
         "type": "fan_hunlaotou",
         "level_limit": 5,
         "time_length": 1200,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_hunlaotou"
+        "path": "audio/sound/12dora/fan_hunlaotou"
     }, {
         "id": 9,
         "name": "七对子",
@@ -892,7 +892,7 @@
         "type": "fan_qiduizi",
         "level_limit": 5,
         "time_length": 1800,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_qiduizi"
+        "path": "audio/sound/12dora/fan_qiduizi"
     }, {
         "id": 9,
         "name": "纯全带幺九",
@@ -907,7 +907,7 @@
         "type": "fan_chunquandaiyaojiu",
         "level_limit": 5,
         "time_length": 1000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_chunquandaiyaojiu"
+        "path": "audio/sound/12dora/fan_chunquandaiyaojiu"
     }, {
         "id": 9,
         "name": "混一色",
@@ -922,7 +922,7 @@
         "type": "fan_hunyise",
         "level_limit": 5,
         "time_length": 1000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_hunyise"
+        "path": "audio/sound/12dora/fan_hunyise"
     }, {
         "id": 9,
         "name": "二杯口",
@@ -937,7 +937,7 @@
         "type": "fan_erbeikou",
         "level_limit": 5,
         "time_length": 1200,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_erbeikou"
+        "path": "audio/sound/12dora/fan_erbeikou"
     }, {
         "id": 9,
         "name": "清一色",
@@ -952,7 +952,7 @@
         "type": "fan_qingyise",
         "level_limit": 5,
         "time_length": 1000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_qingyise"
+        "path": "audio/sound/12dora/fan_qingyise"
     }, {
         "id": 9,
         "name": "立直",
@@ -967,7 +967,7 @@
         "type": "fan_liqi",
         "level_limit": 5,
         "time_length": 1000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_liqi"
+        "path": "audio/sound/12dora/fan_liqi"
     }, {
         "id": 9,
         "name": "两立直",
@@ -982,7 +982,7 @@
         "type": "fan_dliqi",
         "level_limit": 5,
         "time_length": 1200,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_dliqi"
+        "path": "audio/sound/12dora/fan_dliqi"
     }, {
         "id": 9,
         "name": "自摸",
@@ -997,7 +997,7 @@
         "type": "fan_zimo",
         "level_limit": 5,
         "time_length": 1000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_zimo"
+        "path": "audio/sound/12dora/fan_zimo"
     }, {
         "id": 9,
         "name": "一发",
@@ -1012,7 +1012,7 @@
         "type": "fan_yifa",
         "level_limit": 5,
         "time_length": 1000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_yifa"
+        "path": "audio/sound/12dora/fan_yifa"
     }, {
         "id": 9,
         "name": "宝牌",
@@ -1027,7 +1027,7 @@
         "type": "fan_dora1",
         "level_limit": 5,
         "time_length": 600,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_dora1"
+        "path": "audio/sound/12dora/fan_dora1"
     }, {
         "id": 9,
         "name": "宝牌2",
@@ -1042,7 +1042,7 @@
         "type": "fan_dora2",
         "level_limit": 5,
         "time_length": 800,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_dora2"
+        "path": "audio/sound/12dora/fan_dora2"
     }, {
         "id": 9,
         "name": "宝牌3",
@@ -1057,7 +1057,7 @@
         "type": "fan_dora3",
         "level_limit": 5,
         "time_length": 1000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_dora3"
+        "path": "audio/sound/12dora/fan_dora3"
     }, {
         "id": 9,
         "name": "宝牌4",
@@ -1072,7 +1072,7 @@
         "type": "fan_dora4",
         "level_limit": 5,
         "time_length": 1500,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_dora4"
+        "path": "audio/sound/12dora/fan_dora4"
     }, {
         "id": 9,
         "name": "宝牌5",
@@ -1087,7 +1087,7 @@
         "type": "fan_dora5",
         "level_limit": 5,
         "time_length": 1800,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_dora5"
+        "path": "audio/sound/12dora/fan_dora5"
     }, {
         "id": 9,
         "name": "宝牌6",
@@ -1102,7 +1102,7 @@
         "type": "fan_dora6",
         "level_limit": 5,
         "time_length": 2000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_dora6"
+        "path": "audio/sound/12dora/fan_dora6"
     }, {
         "id": 9,
         "name": "宝牌7",
@@ -1117,7 +1117,7 @@
         "type": "fan_dora7",
         "level_limit": 5,
         "time_length": 1000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_dora7"
+        "path": "audio/sound/12dora/fan_dora7"
     }, {
         "id": 9,
         "name": "宝牌8",
@@ -1132,7 +1132,7 @@
         "type": "fan_dora8",
         "level_limit": 5,
         "time_length": 1000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_dora8"
+        "path": "audio/sound/12dora/fan_dora8"
     }, {
         "id": 9,
         "name": "宝牌9",
@@ -1147,7 +1147,7 @@
         "type": "fan_dora9",
         "level_limit": 5,
         "time_length": 1000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_dora9"
+        "path": "audio/sound/12dora/fan_dora9"
     }, {
         "id": 9,
         "name": "宝牌10",
@@ -1162,7 +1162,7 @@
         "type": "fan_dora10",
         "level_limit": 5,
         "time_length": 1000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_dora10"
+        "path": "audio/sound/12dora/fan_dora10"
     }, {
         "id": 9,
         "name": "宝牌11",
@@ -1177,7 +1177,7 @@
         "type": "fan_dora11",
         "level_limit": 5,
         "time_length": 1000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_dora11"
+        "path": "audio/sound/12dora/fan_dora11"
     }, {
         "id": 9,
         "name": "宝牌12",
@@ -1192,7 +1192,7 @@
         "type": "fan_dora12",
         "level_limit": 5,
         "time_length": 1200,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_dora12"
+        "path": "audio/sound/12dora/fan_dora12"
     }, {
         "id": 9,
         "name": "宝牌一大堆",
@@ -1207,7 +1207,7 @@
         "type": "fan_dora13",
         "level_limit": 5,
         "time_length": 1200,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_dora13"
+        "path": "audio/sound/12dora/fan_dora13"
     }, {
         "id": 9,
         "name": "天和",
@@ -1222,7 +1222,7 @@
         "type": "fan_tianhu",
         "level_limit": 5,
         "time_length": 1000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_tianhu"
+        "path": "audio/sound/12dora/fan_tianhu"
     }, {
         "id": 9,
         "name": "地和",
@@ -1237,7 +1237,7 @@
         "type": "fan_dihu",
         "level_limit": 5,
         "time_length": 1000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_dihu"
+        "path": "audio/sound/12dora/fan_dihu"
     }, {
         "id": 9,
         "name": "大三元",
@@ -1252,7 +1252,7 @@
         "type": "fan_dasanyuan",
         "level_limit": 5,
         "time_length": 1200,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_dasanyuan"
+        "path": "audio/sound/12dora/fan_dasanyuan"
     }, {
         "id": 9,
         "name": "四暗刻",
@@ -1267,7 +1267,7 @@
         "type": "fan_sianke",
         "level_limit": 5,
         "time_length": 1200,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_sianke"
+        "path": "audio/sound/12dora/fan_sianke"
     }, {
         "id": 9,
         "name": "四暗刻单骑",
@@ -1282,7 +1282,7 @@
         "type": "fan_siankedanqi",
         "level_limit": 5,
         "time_length": 2400,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_siankedanqi"
+        "path": "audio/sound/12dora/fan_siankedanqi"
     }, {
         "id": 9,
         "name": "字一色",
@@ -1297,7 +1297,7 @@
         "type": "fan_ziyise",
         "level_limit": 5,
         "time_length": 1200,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_ziyise"
+        "path": "audio/sound/12dora/fan_ziyise"
     }, {
         "id": 9,
         "name": "绿一色",
@@ -1312,7 +1312,7 @@
         "type": "fan_lvyise",
         "level_limit": 5,
         "time_length": 1200,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_lvyise"
+        "path": "audio/sound/12dora/fan_lvyise"
     }, {
         "id": 9,
         "name": "清老头",
@@ -1327,7 +1327,7 @@
         "type": "fan_qinglaotou",
         "level_limit": 5,
         "time_length": 1200,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_qinglaotou"
+        "path": "audio/sound/12dora/fan_qinglaotou"
     }, {
         "id": 9,
         "name": "国士无双",
@@ -1342,7 +1342,7 @@
         "type": "fan_guoshiwushuang",
         "level_limit": 5,
         "time_length": 1500,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_guoshiwushuang"
+        "path": "audio/sound/12dora/fan_guoshiwushuang"
     }, {
         "id": 9,
         "name": "国士无双13面听",
@@ -1357,7 +1357,7 @@
         "type": "fan_guoshishisanmian",
         "level_limit": 5,
         "time_length": 2200,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_guoshishisanmian"
+        "path": "audio/sound/12dora/fan_guoshishisanmian"
     }, {
         "id": 9,
         "name": "小四喜",
@@ -1372,7 +1372,7 @@
         "type": "fan_xiaosixi",
         "level_limit": 5,
         "time_length": 1500,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_xiaosixi"
+        "path": "audio/sound/12dora/fan_xiaosixi"
     }, {
         "id": 9,
         "name": "大四喜",
@@ -1387,7 +1387,7 @@
         "type": "fan_dasixi",
         "level_limit": 5,
         "time_length": 1500,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_dasixi"
+        "path": "audio/sound/12dora/fan_dasixi"
     }, {
         "id": 9,
         "name": "四杠子",
@@ -1402,7 +1402,7 @@
         "type": "fan_sigangzi",
         "level_limit": 5,
         "time_length": 1500,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_sigangzi"
+        "path": "audio/sound/12dora/fan_sigangzi"
     }, {
         "id": 9,
         "name": "九莲宝灯",
@@ -1417,7 +1417,7 @@
         "type": "fan_jiulianbaodeng",
         "level_limit": 5,
         "time_length": 1500,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_jiulianbaodeng"
+        "path": "audio/sound/12dora/fan_jiulianbaodeng"
     }, {
         "id": 9,
         "name": "纯正九莲宝灯",
@@ -1432,7 +1432,7 @@
         "type": "fan_chunzhengjiulianbaodeng",
         "level_limit": 5,
         "time_length": 2000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_chunzhengjiulianbaodeng"
+        "path": "audio/sound/12dora/fan_chunzhengjiulianbaodeng"
     }, {
         "id": 9,
         "name": "流局满贯",
@@ -1447,7 +1447,7 @@
         "type": "fan_liujumanguan",
         "level_limit": 5,
         "time_length": 2000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/fan_liujumanguan"
+        "path": "audio/sound/12dora/fan_liujumanguan"
     }, {
         "id": 9,
         "name": "满贯",
@@ -1462,7 +1462,7 @@
         "type": "gameend_manguan",
         "level_limit": 5,
         "time_length": 1200,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/gameend_manguan"
+        "path": "audio/sound/12dora/gameend_manguan"
     }, {
         "id": 9,
         "name": "跳满",
@@ -1477,7 +1477,7 @@
         "type": "gameend_tiaoman",
         "level_limit": 5,
         "time_length": 1200,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/gameend_tiaoman"
+        "path": "audio/sound/12dora/gameend_tiaoman"
     }, {
         "id": 9,
         "name": "倍满",
@@ -1492,7 +1492,7 @@
         "type": "gameend_beiman",
         "level_limit": 5,
         "time_length": 1200,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/gameend_beiman"
+        "path": "audio/sound/12dora/gameend_beiman"
     }, {
         "id": 9,
         "name": "三倍满",
@@ -1507,7 +1507,7 @@
         "type": "gameend_sanbeiman",
         "level_limit": 5,
         "time_length": 1500,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/gameend_sanbeiman"
+        "path": "audio/sound/12dora/gameend_sanbeiman"
     }, {
         "id": 9,
         "name": "累积役满",
@@ -1522,7 +1522,7 @@
         "type": "gameend_leijiyiman",
         "level_limit": 5,
         "time_length": 2000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/gameend_leijiyiman"
+        "path": "audio/sound/12dora/gameend_leijiyiman"
     }, {
         "id": 9,
         "name": "役满",
@@ -1537,7 +1537,7 @@
         "type": "gameend_yiman1",
         "level_limit": 5,
         "time_length": 2200,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/gameend_yiman1"
+        "path": "audio/sound/12dora/gameend_yiman1"
     }, {
         "id": 9,
         "name": "两倍役满",
@@ -1552,7 +1552,7 @@
         "type": "gameend_yiman2",
         "level_limit": 5,
         "time_length": 2200,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/gameend_yiman2"
+        "path": "audio/sound/12dora/gameend_yiman2"
     }, {
         "id": 9,
         "name": "三倍役满",
@@ -1567,7 +1567,7 @@
         "type": "gameend_yiman3",
         "level_limit": 5,
         "time_length": 2500,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/gameend_yiman3"
+        "path": "audio/sound/12dora/gameend_yiman3"
     }, {
         "id": 9,
         "name": "四倍役满",
@@ -1582,7 +1582,7 @@
         "type": "gameend_yiman4",
         "level_limit": 5,
         "time_length": 2500,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/gameend_yiman4"
+        "path": "audio/sound/12dora/gameend_yiman4"
     }, {
         "id": 9,
         "name": "五倍役满",
@@ -1597,7 +1597,7 @@
         "type": "gameend_yiman5",
         "level_limit": 5,
         "time_length": 2500,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/gameend_yiman5"
+        "path": "audio/sound/12dora/gameend_yiman5"
     }, {
         "id": 9,
         "name": "六倍役满",
@@ -1612,7 +1612,7 @@
         "type": "gameend_yiman6",
         "level_limit": 5,
         "time_length": 2500,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/gameend_yiman6"
+        "path": "audio/sound/12dora/gameend_yiman6"
     }, {
         "id": 9,
         "name": "听牌",
@@ -1627,7 +1627,7 @@
         "type": "gameend_tingpai",
         "level_limit": 0,
         "time_length": 1000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/gameend_tingpai"
+        "path": "audio/sound/12dora/gameend_tingpai"
     }, {
         "id": 9,
         "name": "未听牌",
@@ -1642,7 +1642,7 @@
         "type": "gameend_noting",
         "level_limit": 0,
         "time_length": 1000,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/gameend_noting"
+        "path": "audio/sound/12dora/gameend_noting"
     }, {
         "id": 9,
         "name": "四杠流局",
@@ -1657,7 +1657,7 @@
         "type": "gameend_sigangliuju",
         "level_limit": 0,
         "time_length": 2400,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/gameend_sigangliuju"
+        "path": "audio/sound/12dora/gameend_sigangliuju"
     }, {
         "id": 9,
         "name": "四风连打",
@@ -1672,7 +1672,7 @@
         "type": "gameend_sifenglianda",
         "level_limit": 0,
         "time_length": 1400,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/gameend_sifenglianda"
+        "path": "audio/sound/12dora/gameend_sifenglianda"
     }, {
         "id": 9,
         "name": "九种九牌",
@@ -1687,6 +1687,6 @@
         "type": "gameend_jiuzhongjiupai",
         "level_limit": 0,
         "time_length": 3600,
-        "path": "https://fr0stbyter.github.io/Majsoul-Character/characters/12dora/voice/gameend_jiuzhongjiupai"
+        "path": "audio/sound/12dora/gameend_jiuzhongjiupai"
     }]
 }

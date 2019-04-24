@@ -59,10 +59,10 @@ const config = {
 module.exports = (env, argv) => {
   if (argv.mode === 'development') {
     config.devtool = '';
-    config.output.filename = 'index.user.js';
+    config.output.filename = 'dynamic.user.js';
   }
   if (argv.mode === 'production') {
-    config.output.filename = 'index.min.user.js';
+    config.output.filename = 'dynamic.min.user.js';
   }
   return config;
 };
