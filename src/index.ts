@@ -4,6 +4,7 @@
 const SERVER = "https://fr0stbyter.github.io/Majsoul-Character/characters/";
 let newCharactersReady = false;
 let charactersReady = false;
+let characterInjected = false;
 const getCharacter = () => {
     for (let i = 0; i <= 7; i++) {
         uiscript.UI_Sushe.characters[i] = { charid: 200001 + i, exp: 20000, extra_emoji: [10, 11, 12, 13], is_upgraded: true, level: 5, skin: 400102 + i * 100 };
@@ -212,19 +213,47 @@ const inject = () => {
         GameMgr.prototype.EnterLobby = (...args) => {
             charactersReady = true;
             // getCharacter();
-            if (!$char) $char = uiscript.UI_Sushe.characters.length;
-            if (!$skin) $skin = cfg.item_definition.skin.rows_.length;
-            if (!$voice) $voice = cfg.voice.sound.rows_.length;
-            for (const char of newCharacters) {
-                injectChar(char, $char, $skin, $voice);
-                $char++;
-                $skin++;
-                $voice++;
+            if (!characterInjected) {
+                if (!$char) $char = uiscript.UI_Sushe.characters.length;
+                if (!$skin) $skin = cfg.item_definition.skin.rows_.length;
+                if (!$voice) $voice = cfg.voice.sound.rows_.length;
+                for (const char of newCharacters) {
+                    injectChar(char, $char, $skin, $voice);
+                    $char++;
+                    $skin++;
+                    $voice++;
+                }
+                characterInjected = true;
             }
             if (char_id) uiscript.UI_Sushe.main_character_id = char_id;
             const r = _.call(GameMgr.Inst, ...args);
             return r;
         };
+    })();
+    /**
+     * Change font in Sushe
+     *
+     */
+    (() => {
+        const changeFont = () => {
+            try {
+                Laya.View.uiMap["lobby/sushe"].child[0].child[1].child[0].props.font = "SimHei";
+                Laya.View.uiMap["lobby/sushe"].child[0].child[1].child[0].props.fontSize = 48;
+                Laya.View.uiMap["lobby/sushe"].child[0].child[1].child[0].props.scaleX = 1;
+                Laya.View.uiMap["lobby/sushe"].child[0].child[1].child[0].props.scaleY = 1;
+                Laya.View.uiMap["lobby/sushe"].child[0].child[1].child[2].props.font = "SimHei";
+                Laya.View.uiMap["lobby/sushe"].child[0].child[1].child[2].props.fontSize = 30;
+                Laya.View.uiMap["lobby/sushe"].child[0].child[1].child[2].props.scaleX = 1;
+                Laya.View.uiMap["lobby/sushe"].child[0].child[1].child[2].props.scaleY = 1;
+                Laya.View.uiMap["lobby/sushe_select"].child[0].child[1].child[0].child[1].child[5].props.font = "SimHei";
+                Laya.View.uiMap["lobby/sushe_select"].child[0].child[1].child[0].child[1].child[5].props.fontSize = 36;
+                Laya.View.uiMap["lobby/sushe_select"].child[0].child[1].child[0].child[1].child[5].props.scaleX = 0.7;
+                Laya.View.uiMap["lobby/sushe_select"].child[0].child[1].child[0].child[1].child[5].props.scaleY = 0.7;
+            } catch (e) {
+                setTimeout(changeFont, 1000);
+            }
+        };
+        changeFont();
     })();
     /**
      * Override user character in waiting room
