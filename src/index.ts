@@ -94,12 +94,14 @@ let char_views = [] as { slot: number, item_id: number }[];
 try {
     char_views = JSON.parse(localStorage.getItem("char_views"));
 } catch (e) {}
+
+fetchNewChars();
+
 const inject = () => {
-    if (!charactersReady || typeof uiscript === "undefined" || !uiscript.UI_Entrance || !uiscript.UI_Sushe || !uiscript.UI_Sushe_Select || !uiscript.UI_OtherPlayerInfo) {
+    if (!newCharactersReady || typeof uiscript === "undefined" || !uiscript.UI_Entrance || !uiscript.UI_Sushe || !uiscript.UI_Sushe_Select || !uiscript.UI_OtherPlayerInfo) {
         setTimeout(inject, 1000);
         return;
     }
-    fetchNewChars();
     /**
      * Override selected character by local data on login
      *
