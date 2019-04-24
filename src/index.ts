@@ -19,7 +19,6 @@ const fetchNewChars = () => {
         .then(response => response.json())
         .then((char) => {
             newCharacters.push(char);
-            loadRes(char);
             if (i === newCharacterNames.length - 1) newCharactersReady = true;
         }).catch(() => {
             if (i === newCharacterNames.length - 1) newCharactersReady = true;
@@ -37,10 +36,10 @@ const loadRes = (newChar: NewCharacter) => {
     const img = {} as { [path: string]: string };
     const prefix = GameMgr.client_language ? GameMgr.client_language + "/" : "";
     for (let i = 0; i < 13; i++) {
-        img[prefix + newChar.char.emo + "/" + i + ".png"] = toURL(i.toString(), newChar.char.name, "emo");
+        img[prefix + newChar.character.emo + "/" + i + ".png"] = toURL(i.toString(), newChar.character.name, "emo");
     }
     for (const key of ["bighead", "full", "half", "smallhead", "waitingroom"]) {
-        img[prefix + newChar.skin.path + "/" + key + ".png"] = toURL(key, newChar.char.name, "emo");
+        img[prefix + newChar.skin.path + "/" + key + ".png"] = toURL(key, newChar.character.name, "skin");
     }
     for (const key in img) {
         const url = img[key];
@@ -78,12 +77,12 @@ const injectChar = (newChar: NewCharacter, $char: number, $skin: number, $voice:
         setTimeout(injectChar, 1000, newChar, $char, $skin, $voice);
         return;
     }
-    cfg.item_definition.character.map_[newChar.char.id] = newChar.char;
-    cfg.item_definition.character.rows_[$char] = newChar.char;
-    uiscript.UI_Sushe.characters[$char] = { charid: newChar.char.id, exp: 20000, extra_emoji: [9, 10, 11, 12], is_upgraded: true, level: 5, skin: newChar.skin.id, views: char_views };
+    cfg.item_definition.character.map_[newChar.character.id] = newChar.character;
+    cfg.item_definition.character.rows_[$char] = newChar.character;
+    uiscript.UI_Sushe.characters[$char] = { charid: newChar.character.id, exp: 20000, extra_emoji: [9, 10, 11, 12], is_upgraded: true, level: 5, skin: newChar.skin.id, views: char_views };
     cfg.item_definition.skin.map_[newChar.skin.id] = newChar.skin;
     cfg.item_definition.skin.rows_[$skin] = newChar.skin;
-    cfg.voice.sound.groups_[newChar.char.sound] = newChar.voice;
+    cfg.voice.sound.groups_[newChar.character.sound] = newChar.voice;
     for (let i = 0; i < newChar.voice.length; i++) {
         cfg.voice.sound.rows_[$voice + i] = newChar.voice[i];
     }
@@ -102,6 +101,7 @@ const inject = () => {
         setTimeout(inject, 1000);
         return;
     }
+    newCharacters.forEach(char => loadRes(char));
     /**
      * Override selected character by local data on login
      *
@@ -205,6 +205,7 @@ const inject = () => {
         let $char: number, $skin: number, $voice: number;
         const _ = GameMgr.prototype.EnterLobby;
         GameMgr.prototype.EnterLobby = (...args) => {
+            charactersReady = true;
             // getCharacter();
             if (!$char) $char = uiscript.UI_Sushe.characters.length;
             if (!$skin) $skin = cfg.item_definition.skin.rows_.length;
