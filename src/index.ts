@@ -243,21 +243,40 @@ const inject = () => {
      */
     (() => {
         const changeFont = () => {
-            try {
-                Laya.View.uiMap["lobby/sushe"].child[0].child[1].child[0].props.font = "SimHei";
-                Laya.View.uiMap["lobby/sushe"].child[0].child[1].child[0].props.fontSize = 48;
-                Laya.View.uiMap["lobby/sushe"].child[0].child[1].child[0].props.scaleX = 1;
-                Laya.View.uiMap["lobby/sushe"].child[0].child[1].child[0].props.scaleY = 1;
-                Laya.View.uiMap["lobby/sushe"].child[0].child[1].child[2].props.font = "SimHei";
-                Laya.View.uiMap["lobby/sushe"].child[0].child[1].child[2].props.fontSize = 30;
-                Laya.View.uiMap["lobby/sushe"].child[0].child[1].child[2].props.scaleX = 1;
-                Laya.View.uiMap["lobby/sushe"].child[0].child[1].child[2].props.scaleY = 1;
-                Laya.View.uiMap["lobby/sushe_select"].child[0].child[1].child[0].child[1].child[5].props.font = "SimHei";
-                Laya.View.uiMap["lobby/sushe_select"].child[0].child[1].child[0].child[1].child[5].props.fontSize = 36;
-                Laya.View.uiMap["lobby/sushe_select"].child[0].child[1].child[0].child[1].child[5].props.scaleX = 0.7;
-                Laya.View.uiMap["lobby/sushe_select"].child[0].child[1].child[0].child[1].child[5].props.scaleY = 0.7;
-            } catch (e) {
-                setTimeout(changeFont, 1000);
+            if (GameMgr.client_language === "chs") {
+                try {
+                    Laya.View.uiMap["lobby/sushe"].child[0].child[1].child[0].props.font = "SimHei";
+                    Laya.View.uiMap["lobby/sushe"].child[0].child[1].child[0].props.fontSize = 48;
+                    Laya.View.uiMap["lobby/sushe"].child[0].child[1].child[0].props.scaleX = 1;
+                    Laya.View.uiMap["lobby/sushe"].child[0].child[1].child[0].props.scaleY = 1;
+                    Laya.View.uiMap["lobby/sushe"].child[0].child[1].child[2].props.font = "SimHei";
+                    Laya.View.uiMap["lobby/sushe"].child[0].child[1].child[2].props.fontSize = 30;
+                    Laya.View.uiMap["lobby/sushe"].child[0].child[1].child[2].props.scaleX = 1;
+                    Laya.View.uiMap["lobby/sushe"].child[0].child[1].child[2].props.scaleY = 1;
+                    Laya.View.uiMap["lobby/sushe_select"].child[0].child[1].child[0].child[1].child[5].props.font = "SimHei";
+                    Laya.View.uiMap["lobby/sushe_select"].child[0].child[1].child[0].child[1].child[5].props.fontSize = 36;
+                    Laya.View.uiMap["lobby/sushe_select"].child[0].child[1].child[0].child[1].child[5].props.scaleX = 0.7;
+                    Laya.View.uiMap["lobby/sushe_select"].child[0].child[1].child[0].child[1].child[5].props.scaleY = 0.7;
+                } catch (e) {
+                    setTimeout(changeFont, 1000);
+                }
+            } else if (GameMgr.client_language === "jp") {
+                try {
+                    Laya.View.uiMap["lobby/sushe"].child[0].child[2].child[0].props.font = "SimHei";
+                    Laya.View.uiMap["lobby/sushe"].child[0].child[2].child[0].props.fontSize = 48;
+                    Laya.View.uiMap["lobby/sushe"].child[0].child[2].child[0].props.scaleX = 1;
+                    Laya.View.uiMap["lobby/sushe"].child[0].child[2].child[0].props.scaleY = 1;
+                    Laya.View.uiMap["lobby/sushe"].child[0].child[2].child[2].props.font = "SimHei";
+                    Laya.View.uiMap["lobby/sushe"].child[0].child[2].child[2].props.fontSize = 30;
+                    Laya.View.uiMap["lobby/sushe"].child[0].child[2].child[2].props.scaleX = 1;
+                    Laya.View.uiMap["lobby/sushe"].child[0].child[2].child[2].props.scaleY = 1;
+                    Laya.View.uiMap["lobby/sushe_select_en"].child[0].child[1].child[0].child[1].child[5].props.font = "SimHei";
+                    Laya.View.uiMap["lobby/sushe_select_en"].child[0].child[1].child[0].child[1].child[5].props.fontSize = 36;
+                    Laya.View.uiMap["lobby/sushe_select_en"].child[0].child[1].child[0].child[1].child[5].props.scaleX = 0.7;
+                    Laya.View.uiMap["lobby/sushe_select_en"].child[0].child[1].child[0].child[1].child[5].props.scaleY = 0.7;
+                } catch (e) {
+                    setTimeout(changeFont, 1000);
+                }
             }
         };
         changeFont();
@@ -597,13 +616,14 @@ const inject = () => {
         const _ = function (this: ConfigUI) {
             this.CVbox_templete.visible = false;
             this.CV_Cells = [];
+            this.CVboxParent._childs = [this.CVboxParent.getChildAt(0)];
             cfg.item_definition.character.rows_.forEach((char) => {
                 const i = this.CVbox_templete.scriptMap["capsui.UICopy"].getNodeClone();
                 this.CV_Cells.push(i);
                 i.visible = false;
             });
             for (let n = 0, a = 0, r = 0, s = (i: number) => {
-                    const s = this.CVboxParent.getChildAt(i) as Component;
+                    const s = this.CVboxParent.getChildAt(i + 1) as Component;
                     s.visible = !0,
                     s.name = "CVvoice_" + i;
                     i % 2 === 0
