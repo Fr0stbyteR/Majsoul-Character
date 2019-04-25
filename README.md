@@ -2,5 +2,5 @@
 
 ## <b style="color: pink">本项目仅供学习研究使用。未经雀魂官方许可请勿擅自发布。</b>
 #### TODO
-目前新人物的语音暂时无法在游戏内调节音量，可以 `def.ts` 对 `charDef.sound_volume` 进行设置。
+目前新人物的语音暂时无法在游戏内调节音量，可以对 `manifest.json` 中的 `charDef.sound_volume` 进行设置。
 
