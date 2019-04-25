@@ -79,14 +79,14 @@ const loadRes = (newChar: NewCharacter) => {
  * Add character into definition
  *
  */
-const injectChar = (newChar: NewCharacter, $char: number, $skin: number, $voice: number) => {
+const injectChar = (newChar: NewCharacter, $char: number, $sushe: number, $skin: number, $voice: number) => {
     if (!charactersReady || !newCharactersReady) {
         setTimeout(injectChar, 1000, newChar, $char, $skin, $voice);
         return;
     }
     cfg.item_definition.character.map_[newChar.character.id] = newChar.character;
     cfg.item_definition.character.rows_[$char] = newChar.character;
-    uiscript.UI_Sushe.characters[$char] = { charid: newChar.character.id, exp: 20000, extra_emoji: newChar.emoCount > 9 ? Array(newChar.emoCount - 9).fill(0).map((v, i) => i + 9) : [], is_upgraded: true, level: 5, skin: newChar.skin.id, views: char_views };
+    uiscript.UI_Sushe.characters[$sushe] = { charid: newChar.character.id, exp: 20000, extra_emoji: newChar.emoCount > 9 ? Array(newChar.emoCount - 9).fill(0).map((v, i) => i + 9) : [], is_upgraded: true, level: 5, skin: newChar.skin.id, views: char_views };
     cfg.item_definition.skin.map_[newChar.skin.id] = newChar.skin;
     cfg.item_definition.skin.rows_[$skin] = newChar.skin;
     cfg.voice.sound.groups_[newChar.character.sound] = newChar.voice;
@@ -212,21 +212,24 @@ const inject = () => {
      *
      */
     (() => {
-        let $char: number, $skin: number, $voice: number;
+        let $char: number, $sushe: number, $skin: number, $voice: number;
         const _ = GameMgr.prototype.EnterLobby;
         GameMgr.prototype.EnterLobby = (...args) => {
             charactersReady = true;
             // getCharacter();
             if (!characterInjected) {
-                if (!$char) $char = uiscript.UI_Sushe.characters.length;
+                if (!$char) $char = cfg.item_definition.character.rows_.length;
+                if (!$sushe) $sushe = uiscript.UI_Sushe.characters.length;
                 if (!$skin) $skin = cfg.item_definition.skin.rows_.length;
                 if (!$voice) $voice = cfg.voice.sound.rows_.length;
                 for (const char of newCharacters) {
-                    injectChar(char, $char, $skin, $voice);
+                    injectChar(char, $char, $sushe, $skin, $voice);
                     $char++;
+                    $sushe++;
                     $skin++;
                     $voice++;
                 }
+                uiscript.UI_Config.Inst.CVclone();
                 characterInjected = true;
             }
             if (char_id) uiscript.UI_Sushe.main_character_id = char_id;
@@ -544,89 +547,111 @@ const inject = () => {
             return r;
         };
     })();
-    /*
+    /**
+     * Override Config CV Center
+     *
+     */
     (() => {
-        const _ = function () {
-            var e = function() {
-                function t(t) {
-                    var e = this;
-                    this._during_drag = !1,
-                    this.me = t,
-                    this.bar = this.me.getChildByName("val"),
-                    this.point = this.me.getChildByName("point"),
-                    this.me.on("mousedown", this, function() {
-                        e._during_drag = !0,
-                        e.rate = e.me.mouseX / e.me.width
-                    }),
-                    this.me.on("mousemove", this, function() {
-                        e._during_drag && (e.rate = e.me.mouseX / e.me.width)
-                    }),
-                    this.me.on("mouseout", this, function() {
-                        e._during_drag = !1
-                    }),
-                    this.me.on("mouseup", this, function() {
-                        e._during_drag = !1
-                    })
-                }
-                return Object.defineProperty(t.prototype, "rate", {
-                    get: function() {
-                        return this._rate
-                    },
-                    set: function(t) {
-                        this._rate = t,
-                        this._rate < 0 ? this._rate = 0 : this._rate > 1 && (this._rate = 1),
-                        this.me.event("change"),
-                        this.bar.width = this._rate * this.me.width,
-                        this.point.x = this._rate * this.me.width
-                    },
-                    enumerable: !0,
-                    configurable: !0
-                }),
-                t.prototype.initset = function(t) {
-                    this._rate = t,
-                    this._rate < 0 ? this._rate = 0 : this._rate > 1 && (this._rate = 1),
-                    this.bar.width = this._rate * this.me.width,
-                    this.point.x = this._rate * this.me.width
-                }
-                ,
-                t
-            }()
-            this.CVbox_templete.visible = false;
-            for (let i = 0; i < cfg.item_definition.character.rows_.length; i++) {
-                const node = this.CVbox_templete.scriptMap["capsui.UICopy"].getNodeClone();
-                this.CV_Cells.push(node);
-                node.visible = false;
+        class Slider {
+            bar: Sprite;
+            me: Sprite;
+            point: Sprite;
+            _rate: number;
+            _during_drag: boolean;
+            constructor(t: Sprite) {
+                this._during_drag = false,
+                this.me = t;
+                this.bar = this.me.getChildByName("val") as Sprite;
+                this.point = this.me.getChildByName("point") as Sprite;
+                this.me.on("mousedown", this, () => {
+                    this._during_drag = true;
+                    this.rate = this.me.mouseX / this.me.width;
+                });
+                this.me.on("mousemove", this, () => {
+                    this._during_drag && (this.rate = this.me.mouseX / this.me.width);
+                });
+                this.me.on("mouseout", this, () => {
+                    this._during_drag = false;
+                });
+                this.me.on("mouseup", this, () => {
+                    this._during_drag = false;
+                });
             }
-            for (var n = 0, r = 0, a = (i) => {
-                const a = this.CVboxParent.getChildAt(i);
-                a.visible = !0,
-                a.name = "CVvoice_" + i;
-                i % 2 == 0 ? (a.x = -15, a.y = 110 + 110 * n, n++) : (a.x = 510, a.y = 110 + 110 * r, r++)
-                const o = cfg.item_definition.character.rows_[i].id;
-                this.CVvoice[i] = {
-                    slider: new e(this.panel.getChildByName("CVCenter").getChildByName("CharacterVoice").getChildByName(a.name).getChildByName("slider")),
-                    btn_mute: this.panel.getChildByName("CVCenter").getChildByName("CharacterVoice").getChildByName(a.name).getChildByName("checkbox").getChildByName("btn"),
-                    check: this.panel.getChildByName("CVCenter").getChildByName("CharacterVoice").getChildByName(a.name).getChildByName("checkbox").getChildByName("checkbox"),
-                    img: this.panel.getChildByName("CVCenter").getChildByName("CharacterVoice").getChildByName(a.name).getChildByName("Character"),
-                    id: o
-                },
-                this.CVvoice[i].btn_mute.clickHandler = Laya.Handler.create(this, function() {
-                    this.locking || (view.AudioMgr.setCVmute(o, !view.AudioMgr.getCVmute(o)),
-                    this.refreshCharacterMute(this.CVvoice[i].id))
-                }, null, !1),
-                this.CVvoice[i].slider.me.on("change", this, function() {
-                    this.locking || (view.AudioMgr.setCVvolume(o, this.CVvoice[i].slider.rate),
-                    view.AudioMgr.setCVmute(o, !1),
-                    this.refreshCharacterMute(this.CVvoice[i].id))
-                })
-            }, o = 0; o < this.CV_Cells.length; o++)
-                a(o)
+            get rate() {
+                return this._rate;
+            }
+            set rate(rateIn: number) {
+                this._rate = rateIn;
+                this._rate < 0 ? this._rate = 0 : this._rate > 1 && (this._rate = 1);
+                this.me.event("change");
+                this.bar.width = this._rate * this.me.width;
+                this.point.x = this._rate * this.me.width;
+            }
+            initset(rateIn: number) {
+                this._rate = rateIn;
+                this._rate < 0 ? this._rate = 0 : this._rate > 1 && (this._rate = 1);
+                this.bar.width = this._rate * this.me.width;
+                this.point.x = this._rate * this.me.width;
+            }
+        }
+        const _ = function (this: ConfigUI) {
+            this.CVbox_templete.visible = false;
+            this.CV_Cells = [];
+            cfg.item_definition.character.rows_.forEach((char) => {
+                const i = this.CVbox_templete.scriptMap["capsui.UICopy"].getNodeClone();
+                this.CV_Cells.push(i);
+                i.visible = false;
+            });
+            for (let n = 0, a = 0, r = 0, s = (i: number) => {
+                    const s = this.CVboxParent.getChildAt(i) as Component;
+                    s.visible = !0,
+                    s.name = "CVvoice_" + i;
+                    i % 2 === 0
+                        ? (s.x = -15, s.y = 110 + 110 * n, n++)
+                        : (s.x = 510, s.y = 110 + 110 * a, a++);
+                    const id = cfg.item_definition.character.rows_[i].id;
+                    r++;
+                    this.CVvoice[i] = {
+                        id,
+                        slider: new Slider(this.panel.getChildByName("CVCenter").getChildByName("CharacterVoice").getChildByName(s.name).getChildByName("slider") as Component),
+                        btn_mute: this.panel.getChildByName("CVCenter").getChildByName("CharacterVoice").getChildByName(s.name).getChildByName("checkbox").getChildByName("btn") as Button,
+                        check: this.panel.getChildByName("CVCenter").getChildByName("CharacterVoice").getChildByName(s.name).getChildByName("checkbox").getChildByName("checkbox") as Component,
+                        img: this.panel.getChildByName("CVCenter").getChildByName("CharacterVoice").getChildByName(s.name).getChildByName("Character") as Component
+                    };
+                    this.CVvoice[i].btn_mute.clickHandler = Laya.Handler.create(this, () => {
+                        this.locking || (view.AudioMgr.setCVmute(id, !view.AudioMgr.getCVmute(id)),
+                        this.CharacterVocie(i, this.CVvoice[i].id));
+                    }, null, !1);
+                    this.CVvoice[i].slider.me.on("change", this, () => {
+                        this.locking || (view.AudioMgr.setCVvolume(id, this.CVvoice[i].slider.rate),
+                        view.AudioMgr.setCVmute(id, !1),
+                        this.CharacterVocie(i, this.CVvoice[i].id));
+                    });
+                    this.CharacterVocie(i, this.CVvoice[i].id);
+                }, l = 0; l < this.CV_Cells.length; l++) {
+                s(l);
+            }
         };
         uiscript.UI_Config.prototype.CVclone = (...args) => {
             const r = _.call(uiscript.UI_Config.Inst, ...args);
+            (uiscript.UI_Config.Inst.CVboxParent._parent as Component).autoSize = true;
             return r;
-        }
+        };
     })();
+    (() => {
+        const _ = uiscript.UI_Config.prototype.show;
+        uiscript.UI_Config.prototype.show = (...args) => {
+            const cells = uiscript.UI_Config.Inst.CV_Cells;
+            uiscript.UI_Config.Inst.CV_Cells = [];
+            const r = _.call(uiscript.UI_Config.Inst, ...args);
+            uiscript.UI_Config.Inst.CV_Cells = cells;
+            cfg.item_definition.character.rows_.forEach((char, i) => {
+                game.LoadMgr.setImgSkin(uiscript.UI_Config.Inst.CVvoice[i].img, cfg.item_definition.skin.get(char.init_skin).path + "/smallhead.png");
+            });
+            return r;
+        };
+    })();
+    /*
     (() => {
         const _ = function (charID) {
             cfg.item_definition.character.rows_.forEach((char, i) => {

@@ -2,6 +2,7 @@ import Handler = laya.utils.Handler;
 import Sprite = laya.display.Sprite;
 import View = laya.ui.View;
 import Component = laya.ui.Component;
+import Button = laya.ui.Button;
 import AsynDialog = laya.ui.AsynDialog;
 import WebAudioSoundChannel = laya.media.webaudio.WebAudioSoundChannel;
 import SoundChannel = laya.media.SoundChannel;
@@ -43,6 +44,9 @@ declare class AudioManager {
     PlaySound(...args: any[]): any;
     suffix(): string;
     _RemoveAudio(...args: any[]): any;
+    getCVmute(i: number): any;
+    setCVmute(i: number, mute: boolean): any;
+    setCVvolume(i: number, rate: number): any;
 }
 declare var game: {
     Tools: any;
@@ -117,6 +121,7 @@ declare var cfg: {
         skin: {
             map_: { [id: number]: SkinDef }
             rows_: SkinDef[];
+            get(id: number): SkinDef;
         };
     };
     voice: {
@@ -129,7 +134,7 @@ declare var cfg: {
         audio: {
             map_: { [id: number]: AudioDef };
             rows_: AudioDef[];
-            get(id: string): AudioDef
+            get(id: string): AudioDef;
         }
     }
 }
@@ -276,9 +281,13 @@ declare var uiscript: {
         Inst: OtherPlayerInfoUI;
         prototype: OtherPlayerInfoUI;
     }
-    UIMgr:{
+    UIMgr: {
         Inst: UIManager;
         prototype: UIManager;
+    }
+    UI_Config: {
+        Inst: ConfigUI;
+        prototype: ConfigUI;
     }
 }
 declare class Character {
@@ -351,6 +360,35 @@ declare class OtherPlayerInfoUI extends MajsoulUI {
     account_id: number;
     note: any;
     refreshBaseInfo(...args: any[]): any;
+}
+declare class Slider {
+    bar: Sprite;
+    me: Sprite;
+    point: Sprite;
+    _rate: number;
+    rate: number;
+    _during_drag: boolean;
+    initset(rateIn: number): void;
+}
+declare class ConfigUI extends MajsoulUI {
+    panel: Component;
+    CVbox_templete: CVBoxTemplete;
+    CVboxParent: Component;
+    CV_Cells: Component[];
+    CVvoice: {
+        id: number;
+        slider: Slider;
+        btn_mute: Button;
+        check: Component;
+        img: Component;
+    }[]
+    locking: boolean;
+    CVclone(...args: any[]): any;
+    CharacterVocie(...args: any[]): any;
+    show(...args: any[]): any;
+}
+declare class CVBoxTemplete extends Component {
+    scriptMap: { [key: string]: { getNodeClone: () => any } };
 }
 declare class MajsoulUI {
     $_GID: number;
