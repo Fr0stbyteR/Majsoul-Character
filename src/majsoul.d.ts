@@ -329,6 +329,7 @@ declare class SusheVisitUI extends MajsoulUI {
 }
 declare class WaitingRoomUI extends MajsoulUI {
     players: Account[];
+    _refreshPlayerInfo: (...args: any[]) => any;
     updateData(...args: any[]): any;
 }
 declare class LobbyUI extends MajsoulUI {

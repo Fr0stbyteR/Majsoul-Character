@@ -40,7 +40,7 @@ const toURL = (fileName: string, charName: string, type: "emo" | "skin" | "voice
  */
 const loadRes = (newChar: NewCharacter) => {
     const img = {} as { [path: string]: string };
-    const prefix = GameMgr.client_language ? GameMgr.client_language + "/" : "";
+    const prefix = GameMgr.client_language !== "chs" ? GameMgr.client_language + "/" : "";
     for (let i = 0; i < (newChar.emoCount || 0); i++) {
         img[prefix + newChar.character.emo + "/" + i + ".png"] = toURL(i.toString(), newChar.character.name, "emo");
     }
@@ -264,25 +264,57 @@ const inject = () => {
      *
      */
     (() => {
-        const _ = uiscript.UI_WaitingRoom.prototype.updateData;
-        uiscript.UI_WaitingRoom.prototype.updateData = (...args) => {
-            const r = _.call(uiscript.UI_WaitingRoom.Inst, ...args);
-            if (avatar_id) {
-                uiscript.UI_WaitingRoom.Inst.players.forEach((player) => {
-                    if (player.account_id === GameMgr.Inst.account_data.account_id) {
-                        player.avatar_id = GameMgr.Inst.account_data.avatar_id;
-                    } else {
-                        const matched = player.signature.match(SIG_REGEX);
+        const _ = uiscript.UI_WaitingRoom.prototype._refreshPlayerInfo;
+        uiscript.UI_WaitingRoom.prototype._refreshPlayerInfo = (...args) => {
+            const player = args[0];
+            if (player.account_id === GameMgr.Inst.account_data.account_id) {
+                player.avatar_id = GameMgr.Inst.account_data.avatar_id;
+                _.call(uiscript.UI_WaitingRoom.Inst, ...args);
+            } else if (player.account_id) {
+                app.NetAgent.sendReq2Lobby("Lobby", "fetchAccountInfo", {
+                    account_id: player.account_id
+                }, (i, n) => {
+                    if (i || n.error) {} else {
+                        const matched = n.account.signature.match(SIG_REGEX);
                         if (matched && matched[1]) {
                             for (const char of cfg.item_definition.character.rows_) {
-                                if ([char.id, char.name, char.name_chs, char.name_en, char.name_jp].indexOf(matched[1]) !== -1) {
+                                if ([char.id.toString(), char.name, char.name_chs, char.name_en, char.name_jp].indexOf(matched[1]) !== -1) {
                                     player.avatar_id = char.full_fetter_skin;
                                 }
                             }
                         }
                     }
+                    _.call(uiscript.UI_WaitingRoom.Inst, ...args);
                 });
+            } else {
+                _.call(uiscript.UI_WaitingRoom.Inst, ...args);
             }
+        };
+    })();
+    (() => {
+        const _ = uiscript.UI_WaitingRoom.prototype.updateData;
+        uiscript.UI_WaitingRoom.prototype.updateData = (...args) => {
+            const r = _.call(uiscript.UI_WaitingRoom.Inst, ...args);
+            uiscript.UI_WaitingRoom.Inst.players.forEach((player) => {
+                if (player.account_id === GameMgr.Inst.account_data.account_id) {
+                    player.avatar_id = GameMgr.Inst.account_data.avatar_id;
+                } else if (player.account_id) {
+                    app.NetAgent.sendReq2Lobby("Lobby", "fetchAccountInfo", {
+                        account_id: player.account_id
+                    }, (i, n) => {
+                        if (i || n.error) {} else {
+                            const matched = n.account.signature.match(SIG_REGEX);
+                            if (matched && matched[1]) {
+                                for (const char of cfg.item_definition.character.rows_) {
+                                    if ([char.id.toString(), char.name, char.name_chs, char.name_en, char.name_jp].indexOf(matched[1]) !== -1) {
+                                        player.avatar_id = char.full_fetter_skin;
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+            });
             return r;
         };
     })();
@@ -307,28 +339,36 @@ const inject = () => {
         const _ = game.Scene_MJ.prototype.openMJRoom;
         game.Scene_MJ.prototype.openMJRoom = (...args) => {
             const player_datas = args[0];
-            if (avatar_id) {
-                player_datas.forEach((player: Account) => {
-                    if (player.account_id === GameMgr.Inst.account_data.account_id) {
-                        player.avatar_id = GameMgr.Inst.account_data.avatar_id;
-                        const curChar = uiscript.UI_Sushe.main_chara_info;
-                        player.character = Object.assign(player.character, curChar);
-                    } else {
-                        const matched = player.signature.match(SIG_REGEX);
+            const step = (player_datas: Account[], index: number): void => {
+                if (index >= player_datas.length) return final();
+                const player = player_datas[index];
+                if (player.account_id === GameMgr.Inst.account_data.account_id) {
+                    player.avatar_id = GameMgr.Inst.account_data.avatar_id;
+                    const curChar = uiscript.UI_Sushe.main_chara_info;
+                    player.character = Object.assign(player.character, curChar);
+                    return step(player_datas, index + 1);
+                }
+                if (player.account_id) {
+                    app.NetAgent.sendReq2Lobby("Lobby", "fetchAccountInfo", {
+                        account_id: player.account_id
+                    }, (i, n) => {
+                        if (i || n.error) return step(player_datas, index + 1);
+                        const matched = n.account.signature.match(SIG_REGEX);
                         if (matched && matched[1]) {
                             for (const char of uiscript.UI_Sushe.characters) {
                                 const charDef = cfg.item_definition.character.map_[char.charid];
-                                if ([charDef.id, charDef.name, charDef.name_chs, charDef.name_en, charDef.name_jp].indexOf(matched[1]) !== -1) {
+                                if ([charDef.id.toString(), charDef.name, charDef.name_chs, charDef.name_en, charDef.name_jp].indexOf(matched[1]) !== -1) {
                                     player.avatar_id = charDef.full_fetter_skin;
-                                    player.character = Object.assign(player.character, char);
+                                    player.character = Object.assign(player.character, { charid: char.charid, exp: 20000, extra_emoji: char.extra_emoji, is_upgraded: true, level: 5, skin: char.skin });
                                 }
                             }
                         }
-                    }
-                });
-            }
-            const r = _.call(game.Scene_MJ.Inst, ...args);
-            return r;
+                        return step(player_datas, index + 1);
+                    });
+                } else return step(player_datas, index + 1);
+            };
+            const final = () => _.call(game.Scene_MJ.Inst, ...args);
+            step(player_datas, 0);
         };
     })();
     /**
@@ -482,7 +522,7 @@ const inject = () => {
                         const matched = player.signature.match(SIG_REGEX);
                         if (matched && matched[1]) {
                             for (const char of cfg.item_definition.character.rows_) {
-                                if ([char.id, char.name, char.name_chs, char.name_en, char.name_jp].indexOf(matched[1]) !== -1) {
+                                if ([char.id.toString(), char.name, char.name_chs, char.name_en, char.name_jp].indexOf(matched[1]) !== -1) {
                                     player.avatar_id = char.full_fetter_skin;
                                 }
                             }
