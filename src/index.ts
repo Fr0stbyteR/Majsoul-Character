@@ -2,6 +2,7 @@
 /// <reference path="./majsoul.d.ts" />
 /// <reference path="./index.d.ts" />
 const SERVER = "https://fr0stbyter.github.io/Majsoul-Character/characters/";
+const SIG_REGEX = /\[([^\[\]]+)\]$/;
 let newCharactersReady = false;
 let charactersReady = false;
 let characterInjected = false;
@@ -40,7 +41,7 @@ const toURL = (fileName: string, charName: string, type: "emo" | "skin" | "voice
 const loadRes = (newChar: NewCharacter) => {
     const img = {} as { [path: string]: string };
     const prefix = GameMgr.client_language ? GameMgr.client_language + "/" : "";
-    for (let i = 0; i < 13; i++) {
+    for (let i = 0; i < (newChar.emoCount || 0); i++) {
         img[prefix + newChar.character.emo + "/" + i + ".png"] = toURL(i.toString(), newChar.character.name, "emo");
     }
     for (const key of ["bighead", "full", "half", "smallhead", "waitingroom"]) {
@@ -85,7 +86,7 @@ const injectChar = (newChar: NewCharacter, $char: number, $skin: number, $voice:
     }
     cfg.item_definition.character.map_[newChar.character.id] = newChar.character;
     cfg.item_definition.character.rows_[$char] = newChar.character;
-    uiscript.UI_Sushe.characters[$char] = { charid: newChar.character.id, exp: 20000, extra_emoji: [9, 10, 11, 12], is_upgraded: true, level: 5, skin: newChar.skin.id, views: char_views };
+    uiscript.UI_Sushe.characters[$char] = { charid: newChar.character.id, exp: 20000, extra_emoji: newChar.emoCount > 9 ? Array(newChar.emoCount - 9).fill(0).map((v, i) => i + 9) : [], is_upgraded: true, level: 5, skin: newChar.skin.id, views: char_views };
     cfg.item_definition.skin.map_[newChar.skin.id] = newChar.skin;
     cfg.item_definition.skin.rows_[$skin] = newChar.skin;
     cfg.voice.sound.groups_[newChar.character.sound] = newChar.voice;
@@ -146,6 +147,9 @@ const inject = () => {
                 char_id = uiscript.UI_Sushe.characters[i].charid;
                 localStorage.setItem("avatar_id", avatar_id.toString());
                 localStorage.setItem("char_id", char_id.toString());
+                const signature = `${GameMgr.Inst.account_data.signature.replace(SIG_REGEX, "")}[${char_id}]`;
+                GameMgr.Inst.account_data.signature = signature;
+                app.NetAgent.sendReq2Lobby("Lobby", "modifySignature", { signature }, (t, e) => {});
             }
             const r = _.call(uiscript.UI_Sushe.Inst.page_select_character, ...args);
             return r;
@@ -265,7 +269,18 @@ const inject = () => {
             const r = _.call(uiscript.UI_WaitingRoom.Inst, ...args);
             if (avatar_id) {
                 uiscript.UI_WaitingRoom.Inst.players.forEach((player) => {
-                    if (player.account_id === GameMgr.Inst.account_data.account_id) player.avatar_id = GameMgr.Inst.account_data.avatar_id;
+                    if (player.account_id === GameMgr.Inst.account_data.account_id) {
+                        player.avatar_id = GameMgr.Inst.account_data.avatar_id;
+                    } else {
+                        const matched = player.signature.match(SIG_REGEX);
+                        if (matched && matched[1]) {
+                            for (const char of cfg.item_definition.character.rows_) {
+                                if ([char.id, char.name, char.name_chs, char.name_en, char.name_jp].indexOf(matched[1]) !== -1) {
+                                    player.avatar_id = char.full_fetter_skin;
+                                }
+                            }
+                        }
+                    }
                 });
             }
             return r;
@@ -298,6 +313,17 @@ const inject = () => {
                         player.avatar_id = GameMgr.Inst.account_data.avatar_id;
                         const curChar = uiscript.UI_Sushe.main_chara_info;
                         player.character = Object.assign(player.character, curChar);
+                    } else {
+                        const matched = player.signature.match(SIG_REGEX);
+                        if (matched && matched[1]) {
+                            for (const char of uiscript.UI_Sushe.characters) {
+                                const charDef = cfg.item_definition.character.map_[char.charid];
+                                if ([charDef.id, charDef.name, charDef.name_chs, charDef.name_en, charDef.name_jp].indexOf(matched[1]) !== -1) {
+                                    player.avatar_id = charDef.full_fetter_skin;
+                                    player.character = Object.assign(player.character, char);
+                                }
+                            }
+                        }
                     }
                 });
             }
@@ -449,13 +475,25 @@ const inject = () => {
                 if (i || n.error) {
                     uiscript.UIMgr.Inst.showNetReqError("fetchAccountInfo", i, n);
                 } else {
-                    const player = n.account;
+                    const player = n.account as Account;
+                    if (player.account_id === GameMgr.Inst.account_data.account_id) {
+                        player.avatar_id = GameMgr.Inst.account_data.avatar_id;
+                    } else {
+                        const matched = player.signature.match(SIG_REGEX);
+                        if (matched && matched[1]) {
+                            for (const char of cfg.item_definition.character.rows_) {
+                                if ([char.id, char.name, char.name_chs, char.name_en, char.name_jp].indexOf(matched[1]) !== -1) {
+                                    player.avatar_id = char.full_fetter_skin;
+                                }
+                            }
+                        }
+                    }
                     this.label_name.text = player.nickname,
                     this.title.id = player.title,
                     this.level.id = player.level.id,
                     this.level.exp = player.level.score,
                     this.illust.me.visible = !0,
-                    this.illust.setSkin(player.account_id === GameMgr.Inst.account_data.account_id ? GameMgr.Inst.account_data.avatar_id : player.avatar_id, "waitingroom"),
+                    this.illust.setSkin(player.avatar_id, "waitingroom"),
                     this.account_id === GameMgr.Inst.account_id || null != game.FriendMgr.find(this.account_id) ? this.btn_addfriend.visible = !1 : this.btn_addfriend.visible = !0,
                     this.note.sign.setSign(player.signature);
                 }

@@ -476,7 +476,7 @@ declare interface Account {
     logout_time: number;
     nickname: string;
     room_id: number;
-    signature: number;
+    signature: string;
     title: number;
     vip: number;
 }
