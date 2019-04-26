@@ -1,7 +1,6 @@
 /// <reference path="./LayaAir.d.ts" />
 /// <reference path="./majsoul.d.ts" />
 /// <reference path="./index.d.ts" />
-const SERVER = "https://fr0stbyter.github.io/Majsoul-Character/characters/";
 if (!window.charMod) {
     window.charMod = {
         servers: [],
@@ -9,11 +8,36 @@ if (!window.charMod) {
         newCharacters: [] as NewCharacter[],
         serverMap: {} as { [id: string]: string },
         newServer: (url: string) => {
-            if (window.charMod.servers.indexOf(url) === -1) window.charMod.servers.push(url);
+            if (window.charMod.servers.indexOf(url) === -1) {
+                window.charMod.servers.push(url);
+                window.charMod.fetchNewChars(url);
+            }
+        },
+        fetchNewChars: (server: string) => {
+            fetch(server + "characters.json")
+            .then(response => response.json())
+            .then((newCharacterNames: string[]) => {
+                newCharacterNames.forEach((name, j) => {
+                    fetch(server + name + "/manifest.json")
+                    .then(response => response.json())
+                    .then((char: NewCharacter) => {
+                        window.charMod.newCharacters.push(char);
+                        window.charMod.serverMap[char.character.id] = server;
+                        if (j === newCharacterNames.length - 1) newCharactersReady = true;
+                    }).catch(() => {
+                        if (j === newCharacterNames.length - 1) newCharactersReady = true;
+                    });
+                });
+            }).catch(() => {
+                newCharactersReady = true;
+            });
         }
     };
 }
+
+const SERVER = "https://fr0stbyter.github.io/Majsoul-Character/characters/";
 window.charMod.newServer(SERVER);
+
 const SIG_REGEX = /\[([^\[\]]+)\]$/;
 
 let newCharactersReady = false;
@@ -25,29 +49,6 @@ const getCharacter = () => {
         uiscript.UI_Sushe.skin_map[400102 + i * 100] = 1;
         uiscript.UI_Sushe.skin_map[400101 + i * 100] = 1;
     }
-};
-window.charMod.newCharacters = [] as NewCharacter[];
-window.charMod.serverMap = {} as { [id: string]: string };
-const fetchNewChars = () => {
-    window.charMod.servers.forEach((server, i) => {
-        fetch(server + "characters.json")
-        .then(response => response.json())
-        .then((newCharacterNames: string[]) => {
-            newCharacterNames.forEach((name, j) => {
-                fetch(server + name + "/manifest.json")
-                .then(response => response.json())
-                .then((char: NewCharacter) => {
-                    window.charMod.newCharacters.push(char);
-                    window.charMod.serverMap[char.character.id] = server;
-                    if (i === window.charMod.servers.length - 1 && j === newCharacterNames.length - 1) newCharactersReady = true;
-                }).catch(() => {
-                    if (i === window.charMod.servers.length - 1 && j === newCharacterNames.length - 1) newCharactersReady = true;
-                });
-            });
-        }).catch(() => {
-            if (i === window.charMod.servers.length - 1) newCharactersReady = true;
-        });
-    });
 };
 const toURL = (server: string, fileName: string, charName: string, type: "emo" | "skin" | "voice") => {
     return server + charName + "/" + type + "/" + fileName + (type === "emo" || type === "skin" ? ".png" : ".mp3");
@@ -118,8 +119,6 @@ let char_views = [] as { slot: number, item_id: number }[];
 try {
     char_views = JSON.parse(localStorage.getItem("char_views"));
 } catch (e) {}
-
-fetchNewChars();
 
 const inject = () => {
     if (!newCharactersReady || typeof uiscript === "undefined" || !uiscript.UI_Entrance || !uiscript.UI_Sushe || !uiscript.UI_Sushe_Select || !uiscript.UI_OtherPlayerInfo) {

@@ -26,5 +26,10 @@ declare interface Window {
          *
          */
         newServer: (url: string) => void;
+        /**
+         * load characters from server
+         *
+         */
+        fetchNewChars: (server: string) => void;
     }
 }
