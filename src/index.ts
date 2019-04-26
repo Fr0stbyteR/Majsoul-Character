@@ -14,6 +14,7 @@ if (!window.charMod) {
             }
         },
         fetchNewChars: (server: string) => {
+            newCharactersReady = false;
             fetch(server + "characters.json")
             .then(response => response.json())
             .then((newCharacterNames: string[]) => {
