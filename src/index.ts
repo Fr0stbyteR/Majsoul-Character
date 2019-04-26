@@ -44,6 +44,8 @@ const fetchNewChars = () => {
                     if (i === window.charMod.servers.length - 1 && j === newCharacterNames.length - 1) newCharactersReady = true;
                 });
             });
+        }).catch(() => {
+            if (i === window.charMod.servers.length - 1) newCharactersReady = true;
         });
     });
 };
