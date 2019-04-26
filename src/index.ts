@@ -2,7 +2,20 @@
 /// <reference path="./majsoul.d.ts" />
 /// <reference path="./index.d.ts" />
 const SERVER = "https://fr0stbyter.github.io/Majsoul-Character/characters/";
+if (!window.charMod) {
+    window.charMod = {
+        servers: [],
+        injected: false,
+        newCharacters: [] as NewCharacter[],
+        serverMap: {} as { [id: string]: string },
+        newServer: (url: string) => {
+            if (window.charMod.servers.indexOf(url) === -1) window.charMod.servers.push(url);
+        }
+    };
+}
+window.charMod.newServer(SERVER);
 const SIG_REGEX = /\[([^\[\]]+)\]$/;
+
 let newCharactersReady = false;
 let charactersReady = false;
 let characterInjected = false;
@@ -13,26 +26,29 @@ const getCharacter = () => {
         uiscript.UI_Sushe.skin_map[400101 + i * 100] = 1;
     }
 };
-const newCharacters = [] as NewCharacter[];
-const voiceURLMap = {} as { [key: string]: string };
+window.charMod.newCharacters = [] as NewCharacter[];
+window.charMod.serverMap = {} as { [id: string]: string };
 const fetchNewChars = () => {
-    fetch(SERVER + "characters.json")
-    .then(response => response.json())
-    .then((newCharacterNames: string[]) => {
-        newCharacterNames.forEach((name, i) => {
-            fetch(SERVER + name + "/manifest.json")
-            .then(response => response.json())
-            .then((char: NewCharacter) => {
-                newCharacters.push(char);
-                if (i === newCharacterNames.length - 1) newCharactersReady = true;
-            }).catch(() => {
-                if (i === newCharacterNames.length - 1) newCharactersReady = true;
+    window.charMod.servers.forEach((server, i) => {
+        fetch(server + "characters.json")
+        .then(response => response.json())
+        .then((newCharacterNames: string[]) => {
+            newCharacterNames.forEach((name, j) => {
+                fetch(server + name + "/manifest.json")
+                .then(response => response.json())
+                .then((char: NewCharacter) => {
+                    window.charMod.newCharacters.push(char);
+                    window.charMod.serverMap[char.character.id] = server;
+                    if (i === window.charMod.servers.length - 1 && j === newCharacterNames.length - 1) newCharactersReady = true;
+                }).catch(() => {
+                    if (i === window.charMod.servers.length - 1 && j === newCharacterNames.length - 1) newCharactersReady = true;
+                });
             });
         });
     });
 };
-const toURL = (fileName: string, charName: string, type: "emo" | "skin" | "voice") => {
-    return SERVER + charName + "/" + type + "/" + fileName + (type === "emo" || type === "skin" ? ".png" : ".mp3");
+const toURL = (server: string, fileName: string, charName: string, type: "emo" | "skin" | "voice") => {
+    return server + charName + "/" + type + "/" + fileName + (type === "emo" || type === "skin" ? ".png" : ".mp3");
 };
 /**
  * Preload image resources
@@ -42,10 +58,10 @@ const loadRes = (newChar: NewCharacter) => {
     const img = {} as { [path: string]: string };
     const prefix = GameMgr.client_language !== "chs" ? GameMgr.client_language + "/" : "";
     for (let i = 0; i < (newChar.emoCount || 0); i++) {
-        img[prefix + newChar.character.emo + "/" + i + ".png"] = toURL(i.toString(), newChar.character.name, "emo");
+        img[prefix + newChar.character.emo + "/" + i + ".png"] = toURL(window.charMod.serverMap[newChar.character.id], i.toString(), newChar.character.name, "emo");
     }
     for (const key of ["bighead", "full", "half", "smallhead", "waitingroom"]) {
-        img[prefix + newChar.skin.path + "/" + key + ".png"] = toURL(key, newChar.character.name, "skin");
+        img[prefix + newChar.skin.path + "/" + key + ".png"] = toURL(window.charMod.serverMap[newChar.character.id], key, newChar.character.name, "skin");
     }
     for (const key in img) {
         const url = img[key];
@@ -73,7 +89,7 @@ const loadRes = (newChar: NewCharacter) => {
         }, [url]), null, Laya.Loader.IMAGE);
         game.LoadMgr._resimage[resImage.origin_url] = resImage;
     }
-    newChar.voice.forEach(voiceDef => voiceDef.path = toURL(voiceDef.path.split("/").reverse()[0], newChar.character.name, "voice").replace(/\.mp3$/, ""));
+    newChar.voice.forEach(voiceDef => voiceDef.path = toURL(window.charMod.serverMap[newChar.character.id], voiceDef.path.split("/").reverse()[0], newChar.character.name, "voice").replace(/\.mp3$/, ""));
 };
 /**
  * Add character into definition
@@ -108,7 +124,7 @@ const inject = () => {
         setTimeout(inject, 1000);
         return;
     }
-    newCharacters.forEach(char => loadRes(char));
+    window.charMod.newCharacters.forEach(char => loadRes(char));
     /**
      * Override selected character by local data on login
      *
@@ -222,7 +238,7 @@ const inject = () => {
                 if (!$sushe) $sushe = uiscript.UI_Sushe.characters.length;
                 if (!$skin) $skin = cfg.item_definition.skin.rows_.length;
                 if (!$voice) $voice = cfg.voice.sound.rows_.length;
-                for (const char of newCharacters) {
+                for (const char of window.charMod.newCharacters) {
                     injectChar(char, $char, $sushe, $skin, $voice);
                     $char++;
                     $sushe++;
@@ -726,5 +742,6 @@ const inject = () => {
     })();
     */
     console.log("Majsoul-Character injected."); // tslint:disable-line: no-console
+    window.charMod.injected = true;
 };
-inject();
+if (!window.charMod.injected) inject();
