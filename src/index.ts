@@ -5,16 +5,12 @@ if (!window.charMod) {
     window.charMod = {
         servers: [],
         injected: false,
+        newCharactersReady: false,
         newCharacters: [] as NewCharacter[],
         serverMap: {} as { [id: string]: string },
-        newServer: (url: string) => {
-            if (window.charMod.servers.indexOf(url) === -1) {
-                window.charMod.servers.push(url);
-                window.charMod.fetchNewChars(url);
-            }
-        },
-        fetchNewChars: (server: string) => {
-            newCharactersReady = false;
+        newServer: (server: string) => {
+            window.charMod.newCharactersReady = false;
+            window.charMod.servers.push(server);
             fetch(server + "characters.json")
             .then(response => response.json())
             .then((newCharacterNames: string[]) => {
@@ -22,15 +18,25 @@ if (!window.charMod) {
                     fetch(server + name + "/manifest.json")
                     .then(response => response.json())
                     .then((char: NewCharacter) => {
-                        window.charMod.newCharacters.push(char);
-                        window.charMod.serverMap[char.character.id] = server;
-                        if (j === newCharacterNames.length - 1) newCharactersReady = true;
+                        if (!window.charMod.newCharacters.find(e => e.character.id === char.character.id)) {
+                            window.charMod.newCharacters.push(char);
+                            window.charMod.serverMap[char.character.id] = server;
+                        }
+                        if (window.charMod.servers.lastIndexOf(server) === window.charMod.servers.length - 1
+                                && j === newCharacterNames.length - 1) {
+                            window.charMod.newCharactersReady = true;
+                        }
                     }).catch(() => {
-                        if (j === newCharacterNames.length - 1) newCharactersReady = true;
+                        if (window.charMod.servers.lastIndexOf(server) === window.charMod.servers.length - 1
+                                && j === newCharacterNames.length - 1) {
+                            window.charMod.newCharactersReady = true;
+                        }
                     });
                 });
             }).catch(() => {
-                newCharactersReady = true;
+                if (window.charMod.servers.lastIndexOf(server) === window.charMod.servers.length - 1) {
+                    window.charMod.newCharactersReady = true;
+                }
             });
         }
     };
@@ -41,7 +47,6 @@ window.charMod.newServer(SERVER);
 
 const SIG_REGEX = /\[([^\[\]]+)\]$/;
 
-let newCharactersReady = false;
 let charactersReady = false;
 let characterInjected = false;
 const getCharacter = () => {
@@ -100,7 +105,7 @@ const loadRes = (newChar: NewCharacter) => {
  *
  */
 const injectChar = (newChar: NewCharacter, $char: number, $sushe: number, $skin: number, $voice: number) => {
-    if (!charactersReady || !newCharactersReady) {
+    if (!charactersReady || !window.charMod.newCharactersReady) {
         setTimeout(injectChar, 1000, newChar, $char, $skin, $voice);
         return;
     }
@@ -122,7 +127,7 @@ try {
 } catch (e) {}
 
 const inject = () => {
-    if (!newCharactersReady || typeof uiscript === "undefined" || !uiscript.UI_Entrance || !uiscript.UI_Sushe || !uiscript.UI_Sushe_Select || !uiscript.UI_OtherPlayerInfo) {
+    if (!window.charMod.newCharactersReady || typeof uiscript === "undefined" || !uiscript.UI_Entrance || !uiscript.UI_Sushe || !uiscript.UI_Sushe_Select || !uiscript.UI_OtherPlayerInfo) {
         setTimeout(inject, 1000);
         return;
     }

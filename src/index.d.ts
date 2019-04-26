@@ -14,22 +14,23 @@ declare interface Window {
          */
         readonly servers: string[];
         injected: boolean;
-        newCharacters: NewCharacter[],
+        newCharacters: NewCharacter[];
+        /**
+         * All Server fetched
+         *
+         * @type {boolean}
+         */
+        newCharactersReady: boolean;
         /**
          * map of char id => server url
          *
          * @type {{ [id: string]: string }}
          */
-        serverMap: { [id: string]: string },
-        /**
-         * register a new server
-         *
-         */
-        newServer: (url: string) => void;
+        serverMap: { [id: string]: string };
         /**
          * load characters from server
          *
          */
-        fetchNewChars: (server: string) => void;
+        newServer: (url: string) => void;
     }
 }
