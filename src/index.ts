@@ -51,13 +51,18 @@ let charactersReady = false;
 let characterInjected = false;
 const getCharacter = () => {
     for (let i = 0; i <= 7; i++) {
-        uiscript.UI_Sushe.characters[i] = { charid: 200001 + i, exp: 20000, extra_emoji: [10, 11, 12, 13], is_upgraded: true, level: 5, skin: 400102 + i * 100 };
+        const $ = uiscript.UI_Sushe.characters.findIndex(char => char.charid === 200001 + i);
+        if ($ === -1) {
+            uiscript.UI_Sushe.characters.push({ charid: 200001 + i, exp: 20000, extra_emoji: [10, 11, 12, 13], is_upgraded: true, level: 5, skin: 400102 + i * 100 });
+        } else {
+            uiscript.UI_Sushe.characters[$] = { charid: 200001 + i, exp: 20000, extra_emoji: [10, 11, 12, 13], is_upgraded: true, level: 5, skin: 400102 + i * 100 };
+        }
         uiscript.UI_Sushe.skin_map[400102 + i * 100] = 1;
         uiscript.UI_Sushe.skin_map[400101 + i * 100] = 1;
     }
 };
-const toURL = (server: string, fileName: string, charName: string, type: "emo" | "skin" | "voice") => {
-    return server + charName + "/" + type + "/" + fileName + (type === "emo" || type === "skin" ? ".png" : ".mp3");
+const toURL = (server: string, fileName: string, charName: string, type: "emo" | "skin" | "full_fetter_skin" | "voice") => {
+    return server + charName + "/" + type + "/" + fileName + (type === "voice" ? ".mp3" : ".png");
 };
 /**
  * Preload image resources
@@ -69,8 +74,15 @@ const loadRes = (newChar: NewCharacter) => {
     for (let i = 0; i < (newChar.emoCount || 0); i++) {
         img[prefix + newChar.character.emo + "/" + i + ".png"] = toURL(window.charMod.serverMap[newChar.character.id], i.toString(), newChar.character.name, "emo");
     }
-    for (const key of ["bighead", "full", "half", "smallhead", "waitingroom"]) {
-        img[prefix + newChar.skin.path + "/" + key + ".png"] = toURL(window.charMod.serverMap[newChar.character.id], key, newChar.character.name, "skin");
+    if (newChar.skin) {
+        for (const key of ["bighead", "full", "half", "smallhead", "waitingroom"]) {
+            img[prefix + newChar.skin.path + "/" + key + ".png"] = toURL(window.charMod.serverMap[newChar.character.id], key, newChar.character.name, "skin");
+        }
+    }
+    if (newChar.fullFetterSkin) {
+        for (const key of ["bighead", "full", "half", "smallhead", "waitingroom"]) {
+            img[prefix + newChar.fullFetterSkin.path + "/" + key + ".png"] = toURL(window.charMod.serverMap[newChar.character.id], key, newChar.character.name, "full_fetter_skin");
+        }
     }
     for (const key in img) {
         const url = img[key];
@@ -104,19 +116,33 @@ const loadRes = (newChar: NewCharacter) => {
  * Add character into definition
  *
  */
-const injectChar = (newChar: NewCharacter, $char: number, $sushe: number, $skin: number, $voice: number) => {
+const injectChar = (newChar: NewCharacter, $: { $char: number, $sushe: number, $skin: number, $voice: number }) => {
     if (!charactersReady || !window.charMod.newCharactersReady) {
-        setTimeout(injectChar, 1000, newChar, $char, $skin, $voice);
+        setTimeout(injectChar, 1000, newChar, $);
         return;
     }
+    let { $char, $sushe, $skin, $voice } = $; // tslint:disable-line: prefer-const
     cfg.item_definition.character.map_[newChar.character.id] = newChar.character;
     cfg.item_definition.character.rows_[$char] = newChar.character;
-    uiscript.UI_Sushe.characters[$sushe] = { charid: newChar.character.id, exp: 20000, extra_emoji: newChar.emoCount > 9 ? Array(newChar.emoCount - 9).fill(0).map((v, i) => i + 9) : [], is_upgraded: true, level: 5, skin: newChar.skin.id, views: char_views };
-    cfg.item_definition.skin.map_[newChar.skin.id] = newChar.skin;
-    cfg.item_definition.skin.rows_[$skin] = newChar.skin;
-    cfg.voice.sound.groups_[newChar.character.sound] = newChar.voice;
-    for (let i = 0; i < newChar.voice.length; i++) {
-        cfg.voice.sound.rows_[$voice + i] = newChar.voice[i];
+    uiscript.UI_Sushe.characters[$sushe] = { charid: newChar.character.id, exp: 20000, extra_emoji: newChar.emoCount > 9 ? Array(newChar.emoCount - 9).fill(0).map((v, i) => i + 9) : [], is_upgraded: true, level: 5, skin: newChar.character.full_fetter_skin, views: char_views };
+    if (newChar.skin) {
+        $skin++;
+        cfg.item_definition.skin.map_[newChar.skin.id] = newChar.skin;
+        cfg.item_definition.skin.rows_[$skin] = newChar.skin;
+        uiscript.UI_Sushe.skin_map[newChar.skin.id] = 1;
+    }
+    if (newChar.fullFetterSkin) {
+        $skin++;
+        cfg.item_definition.skin.map_[newChar.fullFetterSkin.id] = newChar.fullFetterSkin;
+        cfg.item_definition.skin.rows_[$skin] = newChar.fullFetterSkin;
+        uiscript.UI_Sushe.skin_map[newChar.fullFetterSkin.id] = 1;
+    }
+    if (newChar.voice && newChar.voice.length) {
+        $voice++;
+        cfg.voice.sound.groups_[newChar.character.sound] = newChar.voice;
+        for (let i = 0; i < newChar.voice.length; i++) {
+            cfg.voice.sound.rows_[$voice + i] = newChar.voice[i];
+        }
     }
 };
 let avatar_id = +localStorage.getItem("avatar_id");
@@ -127,6 +153,7 @@ try {
 } catch (e) {}
 
 const inject = () => {
+    if (window.charMod.injected) return;
     if (!window.charMod.newCharactersReady || typeof uiscript === "undefined" || !uiscript.UI_Entrance || !uiscript.UI_Sushe || !uiscript.UI_Sushe_Select || !uiscript.UI_OtherPlayerInfo) {
         setTimeout(inject, 1000);
         return;
@@ -246,11 +273,12 @@ const inject = () => {
                 if (!$skin) $skin = cfg.item_definition.skin.rows_.length;
                 if (!$voice) $voice = cfg.voice.sound.rows_.length;
                 for (const char of window.charMod.newCharacters) {
-                    injectChar(char, $char, $sushe, $skin, $voice);
+                    injectChar(char, { $char, $sushe, $skin, $voice });
                     $char++;
                     $sushe++;
-                    $skin++;
-                    $voice++;
+                    if (char.skin) $skin++;
+                    if (char.fullFetterSkin) $skin++;
+                    if (char.voice && char.voice.length) $voice++;
                 }
                 uiscript.UI_Config.Inst.CVclone();
                 characterInjected = true;

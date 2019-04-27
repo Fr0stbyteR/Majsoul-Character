@@ -1,8 +1,9 @@
 /// <reference path="./majsoul.d.ts" />
 declare interface NewCharacter {
     character: CharacterDef,
-    skin: SkinDef,
-    voice: VoiceDef[],
+    skin?: SkinDef,
+    fullFetterSkin?: SkinDef,
+    voice?: VoiceDef[],
     emoCount?: number
 }
 declare interface Window {
