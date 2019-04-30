@@ -339,7 +339,7 @@ const inject = () => {
     (() => {
         const _ = uiscript.UI_WaitingRoom.prototype._refreshPlayerInfo;
         uiscript.UI_WaitingRoom.prototype._refreshPlayerInfo = (...args) => {
-            const player = args[0];
+            const player = args[0] as PlayerBaseView;
             if (player.account_id === GameMgr.Inst.account_data.account_id) {
                 player.avatar_id = GameMgr.Inst.account_data.avatar_id;
                 _.call(uiscript.UI_WaitingRoom.Inst, ...args);
@@ -412,7 +412,7 @@ const inject = () => {
         const _ = game.Scene_MJ.prototype.openMJRoom;
         game.Scene_MJ.prototype.openMJRoom = (...args) => {
             const player_datas = args[0];
-            const step = (player_datas: Account[], index: number): void => {
+            const step = (player_datas: PlayerBaseView[], index: number): void => {
                 if (index >= player_datas.length) return final();
                 const player = player_datas[index];
                 if (player.account_id === GameMgr.Inst.account_data.account_id) {

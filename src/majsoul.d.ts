@@ -299,6 +299,14 @@ declare class Character {
     skin: number;
     views?: { slot: number, item_id: number }[];
 }
+declare class PlayerBaseView {
+    account_id: number;
+    avatar_id: number;
+    level: AccountLevel;
+    nickname: string;
+    title: number;
+    character?: Character;
+}
 declare class SusheUI extends MajsoulUI {
     [key: string]: any;
     chat_block: any;
@@ -337,7 +345,7 @@ declare class SusheVisitUI extends MajsoulUI {
     onCreate(...args: any[]): any;
 }
 declare class WaitingRoomUI extends MajsoulUI {
-    players: Account[];
+    players: PlayerBaseView[];
     _refreshPlayerInfo: (...args: any[]) => any;
     updateData(...args: any[]): any;
 }
