@@ -110,7 +110,7 @@ const loadRes = (newChar: NewCharacter) => {
         }, [url]), null, Laya.Loader.IMAGE);
         game.LoadMgr._resimage[resImage.origin_url] = resImage;
     }
-    newChar.voice.forEach(voiceDef => voiceDef.path = toURL(window.charMod.serverMap[newChar.character.id], voiceDef.path.split("/").reverse()[0], newChar.character.name, "voice").replace(/\.mp3$/, ""));
+    if (newChar.voice) newChar.voice.forEach(voiceDef => voiceDef.path = toURL(window.charMod.serverMap[newChar.character.id], voiceDef.path.split("/").reverse()[0], newChar.character.name, "voice").replace(/\.mp3$/, ""));
 };
 /**
  * Add character into definition
@@ -143,6 +143,8 @@ const injectChar = (newChar: NewCharacter, $: { $char: number, $sushe: number, $
         for (let i = 0; i < newChar.voice.length; i++) {
             cfg.voice.sound.rows_[$voice + i] = newChar.voice[i];
         }
+    } else if (!cfg.voice.sound.groups_[newChar.character.sound]) {
+        cfg.voice.sound.groups_[newChar.character.sound] = [];
     }
 };
 let avatar_id = +localStorage.getItem("avatar_id");
