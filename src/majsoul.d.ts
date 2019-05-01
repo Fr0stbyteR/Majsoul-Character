@@ -67,7 +67,9 @@ declare var game: {
             complete: any[],
             success: boolean
         } };
-        [key: string]: any;
+        createResImage_web(...args: any[]): any;
+        createResImage_conch(...args: any[]): any;
+        setImgSkin(...args: any[]): any;
     };
     stardust_id: any;
     ECommonView: any;

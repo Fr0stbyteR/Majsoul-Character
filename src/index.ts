@@ -5,6 +5,7 @@ if (!window.charMod) {
     window.charMod = {
         servers: [],
         injected: false,
+        injectedImg: {},
         newCharactersReady: false,
         newCharacters: [] as NewCharacter[],
         serverMap: {} as { [id: string]: string },
@@ -69,46 +70,20 @@ const toURL = (server: string, fileName: string, charName: string, type: "emo" |
  *
  */
 const loadRes = (newChar: NewCharacter) => {
-    const img = {} as { [path: string]: string };
+    const injectedImg = window.charMod.injectedImg;
     const prefix = GameMgr.client_language !== "chs" ? GameMgr.client_language + "/" : "";
     for (let i = 0; i < (newChar.emoCount || 0); i++) {
-        img[prefix + newChar.character.emo + "/" + i + ".png"] = toURL(window.charMod.serverMap[newChar.character.id], i.toString(), newChar.character.name, "emo");
+        injectedImg[prefix + newChar.character.emo + "/" + i + ".png"] = toURL(window.charMod.serverMap[newChar.character.id], i.toString(), newChar.character.name, "emo");
     }
     if (newChar.skin) {
         for (const key of ["bighead", "full", "half", "smallhead", "waitingroom"]) {
-            img[prefix + newChar.skin.path + "/" + key + ".png"] = toURL(window.charMod.serverMap[newChar.character.id], key, newChar.character.name, "skin");
+            injectedImg[prefix + newChar.skin.path + "/" + key + ".png"] = toURL(window.charMod.serverMap[newChar.character.id], key, newChar.character.name, "skin");
         }
     }
     if (newChar.fullFetterSkin) {
         for (const key of ["bighead", "full", "half", "smallhead", "waitingroom"]) {
-            img[prefix + newChar.fullFetterSkin.path + "/" + key + ".png"] = toURL(window.charMod.serverMap[newChar.character.id], key, newChar.character.name, "full_fetter_skin");
+            injectedImg[prefix + newChar.fullFetterSkin.path + "/" + key + ".png"] = toURL(window.charMod.serverMap[newChar.character.id], key, newChar.character.name, "full_fetter_skin");
         }
-    }
-    for (const key in img) {
-        const url = img[key];
-        const resImage = {
-            loaded: false,
-            origin_url: key,
-            blob_url: null,
-            complete: [],
-            success: false
-        } as {
-            loaded: boolean,
-            origin_url: string,
-            blob_url: string,
-            complete: any[],
-            success: boolean
-        };
-        Laya.loader.load(url, Laya.Handler.create(game.LoadMgr, (t: any) => { // bypass decode encoded image
-            resImage.blob_url = t,
-            resImage.loaded = true,
-            resImage.success = true;
-            for (let i = 0; i < resImage.complete.length; i++) {
-                resImage.complete && resImage.complete[i].run();
-            }
-            resImage.complete = [];
-        }, [url]), null, Laya.Loader.IMAGE);
-        game.LoadMgr._resimage[resImage.origin_url] = resImage;
     }
     if (newChar.voice) newChar.voice.forEach(voiceDef => voiceDef.path = toURL(window.charMod.serverMap[newChar.character.id], voiceDef.path.split("/").reverse()[0], newChar.character.name, "voice").replace(/\.mp3$/, ""));
 };
@@ -161,6 +136,44 @@ const inject = () => {
         return;
     }
     window.charMod.newCharacters.forEach(char => loadRes(char));
+    /**
+     * Override image decryption
+     *
+     */
+    (() => {
+        const _ = game.LoadMgr.createResImage_web;
+        game.LoadMgr.createResImage_web = (...args) => {
+            if (Object.keys(window.charMod.injectedImg).indexOf(args[0]) !== -1) {
+                const url = window.charMod.injectedImg[args[0]];
+                const resImage = {
+                    loaded: false,
+                    origin_url: args[0],
+                    blob_url: null,
+                    complete: [],
+                    success: false
+                } as {
+                    loaded: boolean,
+                    origin_url: string,
+                    blob_url: string,
+                    complete: any[],
+                    success: boolean
+                };
+                Laya.loader.load(url, Laya.Handler.create(game.LoadMgr, (t: any) => { // bypass decode encoded image
+                    resImage.blob_url = t,
+                    resImage.loaded = true,
+                    resImage.success = true;
+                    for (let i = 0; i < resImage.complete.length; i++) {
+                        resImage.complete && resImage.complete[i].run();
+                    }
+                    resImage.complete = [];
+                }, [url]), null, Laya.Loader.IMAGE);
+                game.LoadMgr._resimage[resImage.origin_url] = resImage;
+                return;
+            }
+            const r = _.call(game.LoadMgr, ...args);
+            return r;
+        };
+    })();
     /**
      * Override selected character by local data on login
      *

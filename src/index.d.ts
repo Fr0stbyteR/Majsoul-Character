@@ -15,6 +15,12 @@ declare interface Window {
          */
         readonly servers: string[];
         injected: boolean;
+        /**
+         * image res injected
+         *
+         * @type {{ [path: string]: string }}
+         */
+        injectedImg: { [path: string]: string };
         newCharacters: NewCharacter[];
         /**
          * All Server fetched
