@@ -212,7 +212,7 @@ const inject = () => {
                 char_id = uiscript.UI_Sushe.characters[i].charid;
                 localStorage.setItem("avatar_id", avatar_id.toString());
                 localStorage.setItem("char_id", char_id.toString());
-                const signature = `${GameMgr.Inst.account_data.signature.replace(SIG_REGEX, "")}[${char_id}]`;
+                const signature = `${GameMgr.Inst.account_data.signature.replace(SIG_REGEX, "")}[${avatar_id}]`;
                 GameMgr.Inst.account_data.signature = signature;
                 app.NetAgent.sendReq2Lobby("Lobby", "modifySignature", { signature }, (t, e) => {});
             }
@@ -365,9 +365,14 @@ const inject = () => {
                     if (i || n.error) {} else {
                         const matched = n.account.signature.match(SIG_REGEX);
                         if (matched && matched[1]) {
-                            for (const char of cfg.item_definition.character.rows_) {
-                                if ([char.id.toString(), char.name, char.name_chs, char.name_en, char.name_jp].indexOf(matched[1]) !== -1) {
-                                    player.avatar_id = char.full_fetter_skin;
+                            const skin = cfg.item_definition.skin.map_[matched[1]];
+                            if (skin) {
+                                player.avatar_id = matched[1];
+                            } else {
+                                for (const char of cfg.item_definition.character.rows_) {
+                                    if ([char.id.toString(), char.name, char.name_chs, char.name_en, char.name_jp].indexOf(matched[1]) !== -1) {
+                                        player.avatar_id = char.full_fetter_skin;
+                                    }
                                 }
                             }
                         }
@@ -393,9 +398,14 @@ const inject = () => {
                         if (i || n.error) {} else {
                             const matched = n.account.signature.match(SIG_REGEX);
                             if (matched && matched[1]) {
-                                for (const char of cfg.item_definition.character.rows_) {
-                                    if ([char.id.toString(), char.name, char.name_chs, char.name_en, char.name_jp].indexOf(matched[1]) !== -1) {
-                                        player.avatar_id = char.full_fetter_skin;
+                                const skin = cfg.item_definition.skin.map_[matched[1]];
+                                if (skin) {
+                                    player.avatar_id = matched[1];
+                                } else {
+                                    for (const char of cfg.item_definition.character.rows_) {
+                                        if ([char.id.toString(), char.name, char.name_chs, char.name_en, char.name_jp].indexOf(matched[1]) !== -1) {
+                                            player.avatar_id = char.full_fetter_skin;
+                                        }
                                     }
                                 }
                             }
@@ -443,11 +453,18 @@ const inject = () => {
                         if (i || n.error) return step(player_datas, index + 1);
                         const matched = n.account.signature.match(SIG_REGEX);
                         if (matched && matched[1]) {
-                            for (const char of uiscript.UI_Sushe.characters) {
-                                const charDef = cfg.item_definition.character.map_[char.charid];
-                                if ([charDef.id.toString(), charDef.name, charDef.name_chs, charDef.name_en, charDef.name_jp].indexOf(matched[1]) !== -1) {
-                                    player.avatar_id = charDef.full_fetter_skin;
-                                    player.character = Object.assign(player.character, { charid: char.charid, exp: 20000, extra_emoji: char.extra_emoji, is_upgraded: true, level: 5, skin: char.skin });
+                            const skin = cfg.item_definition.skin.map_[matched[1]];
+                            if (skin) {
+                                player.avatar_id = matched[1];
+                                const char = uiscript.UI_Sushe.characters.find(c => c.charid === skin.character_id);
+                                player.character = Object.assign(player.character, { charid: char.charid, exp: 20000, extra_emoji: char.extra_emoji, is_upgraded: true, level: 5, skin: matched[1] });
+                            } else {
+                                for (const char of uiscript.UI_Sushe.characters) {
+                                    const charDef = cfg.item_definition.character.map_[char.charid];
+                                    if ([charDef.id.toString(), charDef.name, charDef.name_chs, charDef.name_en, charDef.name_jp].indexOf(matched[1]) !== -1) {
+                                        player.avatar_id = charDef.full_fetter_skin;
+                                        player.character = Object.assign(player.character, { charid: char.charid, exp: 20000, extra_emoji: char.extra_emoji, is_upgraded: true, level: 5, skin: char.skin });
+                                    }
                                 }
                             }
                         }
@@ -607,11 +624,16 @@ const inject = () => {
                     if (player.account_id === GameMgr.Inst.account_data.account_id) {
                         player.avatar_id = GameMgr.Inst.account_data.avatar_id;
                     } else {
-                        const matched = player.signature.match(SIG_REGEX);
+                        const matched = player.signature.match(SIG_REGEX) as any;
                         if (matched && matched[1]) {
-                            for (const char of cfg.item_definition.character.rows_) {
-                                if ([char.id.toString(), char.name, char.name_chs, char.name_en, char.name_jp].indexOf(matched[1]) !== -1) {
-                                    player.avatar_id = char.full_fetter_skin;
+                            const skin = cfg.item_definition.skin.map_[matched[1]];
+                            if (skin) {
+                                player.avatar_id = matched[1];
+                            } else {
+                                for (const char of cfg.item_definition.character.rows_) {
+                                    if ([char.id.toString(), char.name, char.name_chs, char.name_en, char.name_jp].indexOf(matched[1]) !== -1) {
+                                        player.avatar_id = char.full_fetter_skin;
+                                    }
                                 }
                             }
                         }
