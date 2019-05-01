@@ -99,7 +99,7 @@ const injectChar = (newChar: NewCharacter, $: { $char: number, $sushe: number, $
     let { $char, $sushe, $skin, $voice } = $; // tslint:disable-line: prefer-const
     cfg.item_definition.character.map_[newChar.character.id] = newChar.character;
     cfg.item_definition.character.rows_[$char] = newChar.character;
-    uiscript.UI_Sushe.characters[$sushe] = { charid: newChar.character.id, exp: 20000, extra_emoji: newChar.emoCount > 9 ? Array(newChar.emoCount - 9).fill(0).map((v, i) => i + 9) : [], is_upgraded: true, level: 5, skin: newChar.character.full_fetter_skin, views: char_views };
+    uiscript.UI_Sushe.characters[$sushe] = { charid: newChar.character.id, exp: 20000, extra_emoji: newChar.emoCount > 9 ? Array(newChar.emoCount - 9).fill(0).map((v, i) => i + 9) : [], is_upgraded: true, level: 5, skin: avatar_id === newChar.character.init_skin ? newChar.character.init_skin : newChar.character.full_fetter_skin, views: char_views };
     if (newChar.skin) {
         $skin++;
         cfg.item_definition.skin.map_[newChar.skin.id] = newChar.skin;
