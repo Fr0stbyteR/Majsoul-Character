@@ -330,8 +330,8 @@ const inject = () => {
                 try {
                     Laya.View.uiMap["lobby/sushe"].child[0].child[2].child[0].props.font = "SimHei";
                     Laya.View.uiMap["lobby/sushe"].child[0].child[2].child[0].props.fontSize = 48;
-                    Laya.View.uiMap["lobby/sushe"].child[0].child[2].child[0].props.scaleX = 1;
-                    Laya.View.uiMap["lobby/sushe"].child[0].child[2].child[0].props.scaleY = 1;
+                    Laya.View.uiMap["lobby/sushe"].child[0].child[2].child[0].props.scaleX = 0.75;
+                    Laya.View.uiMap["lobby/sushe"].child[0].child[2].child[0].props.scaleY = 0.75;
                     Laya.View.uiMap["lobby/sushe"].child[0].child[2].child[2].props.font = "SimHei";
                     Laya.View.uiMap["lobby/sushe"].child[0].child[2].child[2].props.fontSize = 30;
                     Laya.View.uiMap["lobby/sushe"].child[0].child[2].child[2].props.scaleX = 1;
