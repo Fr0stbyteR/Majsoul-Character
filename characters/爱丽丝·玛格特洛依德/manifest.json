@@ -439,36 +439,6 @@
   "path": "audio/sound/爱丽丝·玛格特洛依德/fan_doublenan"
 }, {
   "id": 300,
-  "name": "连西",
-  "name_chs": "连西",
-  "name_en": "West Repeat",
-  "name_jp": "ダブル西",
-  "words": "连西",
-  "words_chs": "连西",
-  "words_en": "West Repeat",
-  "words_jp": "ダブル西",
-  "category": 2,
-  "type": "fan_doublexi",
-  "level_limit": 5,
-  "time_length": 1000,
-  "path": "audio/sound/爱丽丝·玛格特洛依德/fan_doublexi"
-}, {
-  "id": 300,
-  "name": "连北",
-  "name_chs": "连北",
-  "name_en": "North Repeat",
-  "name_jp": "ダブル北",
-  "words": "连北",
-  "words_chs": "连北",
-  "words_en": "North Repeat",
-  "words_jp": "ダブル北",
-  "category": 2,
-  "type": "fan_doublebei",
-  "level_limit": 5,
-  "time_length": 1000,
-  "path": "audio/sound/爱丽丝·玛格特洛依德/fan_doublebei"
-}, {
-  "id": 300,
   "name": "断幺",
   "name_chs": "断幺",
   "name_en": "Tanyao",
