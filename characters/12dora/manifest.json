@@ -81,7 +81,10 @@
         "face_width": 328,
         "face_height": 328,
         "face_x": 1281,
-        "face_y": 239
+        "face_y": 239,
+        "direction": 0,
+        "full_center_x": 0.5,
+        "half_center_x": 0.5
     },
     "voice": [{
         "id": 1001,
