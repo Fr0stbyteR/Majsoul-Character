@@ -51,7 +51,7 @@ const SIG_REGEX = /\[([^\[\]]+)\]$/;
 let charactersReady = false;
 let characterInjected = false;
 const getCharacter = () => {
-    for (let i = 0; i <= 7; i++) {
+    for (let i = 0; i <= 9; i++) {
         const $ = uiscript.UI_Sushe.characters.findIndex(char => char.charid === 200001 + i);
         if ($ === -1) {
             uiscript.UI_Sushe.characters.push({ charid: 200001 + i, exp: 20000, extra_emoji: [10, 11, 12, 13], is_upgraded: true, level: 5, skin: 400102 + i * 100 });
@@ -100,16 +100,19 @@ const injectChar = (newChar: NewCharacter, $: { $char: number, $sushe: number, $
     cfg.item_definition.character.map_[newChar.character.id] = newChar.character;
     cfg.item_definition.character.rows_[$char] = newChar.character;
     uiscript.UI_Sushe.characters[$sushe] = { charid: newChar.character.id, exp: 20000, extra_emoji: newChar.emoCount > 9 ? Array(newChar.emoCount - 9).fill(0).map((v, i) => i + 9) : [], is_upgraded: true, level: 5, skin: avatar_id === newChar.character.init_skin ? newChar.character.init_skin : newChar.character.full_fetter_skin, views: char_views };
+    const defaultSkin = cfg.item_definition.skin.map_[400000];
     if (newChar.skin) {
         $skin++;
-        cfg.item_definition.skin.map_[newChar.skin.id] = newChar.skin;
-        cfg.item_definition.skin.rows_[$skin] = newChar.skin;
+        const skin = { ...defaultSkin, ...newChar.skin }
+        cfg.item_definition.skin.map_[newChar.skin.id] = skin;
+        cfg.item_definition.skin.rows_[$skin] = skin;
         uiscript.UI_Sushe.skin_map[newChar.skin.id] = 1;
     }
     if (newChar.fullFetterSkin) {
         $skin++;
-        cfg.item_definition.skin.map_[newChar.fullFetterSkin.id] = newChar.fullFetterSkin;
-        cfg.item_definition.skin.rows_[$skin] = newChar.fullFetterSkin;
+        const skin = { ...defaultSkin, ...newChar.fullFetterSkin };
+        cfg.item_definition.skin.map_[newChar.fullFetterSkin.id] = skin;
+        cfg.item_definition.skin.rows_[$skin] = skin;
         uiscript.UI_Sushe.skin_map[newChar.fullFetterSkin.id] = 1;
     }
     if (newChar.voice && newChar.voice.length) {

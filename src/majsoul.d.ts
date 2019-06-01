@@ -244,6 +244,9 @@ declare class SkinDef {
     face_height: number;
     face_x: number;
     face_y: number;
+    direction: number;
+    full_center_x: number;
+    half_center_x: number;
 }
 declare var uiscript: {
     UI_GameEnd: {
