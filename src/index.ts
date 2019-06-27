@@ -1,6 +1,8 @@
 /// <reference path="./LayaAir.d.ts" />
 /// <reference path="./majsoul.d.ts" />
 /// <reference path="./index.d.ts" />
+import fetch from "node-fetch"; // tslint:disable-line: import-name
+
 if (!window.charMod) {
     window.charMod = {
         servers: [],
@@ -13,11 +15,11 @@ if (!window.charMod) {
             window.charMod.newCharactersReady = false;
             window.charMod.servers.push(server);
             fetch(server + "characters.json")
-            .then(response => response.json())
+            .then((response: any) => response.json())
             .then((newCharacterNames: string[]) => {
                 newCharacterNames.forEach((name, j) => {
                     fetch(server + name + "/manifest.json")
-                    .then(response => response.json())
+                    .then((response: any) => response.json())
                     .then((char: NewCharacter) => {
                         if (!window.charMod.newCharacters.find(e => e.character.id === char.character.id)) {
                             window.charMod.newCharacters.push(char);

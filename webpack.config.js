@@ -13,6 +13,9 @@ const config = {
   node: {
     fs: 'empty'
   },
+  externals: {
+    request: "request"
+  },
   module: {
     rules: [{
         test: /\.tsx?$/,
@@ -59,7 +62,7 @@ const config = {
 module.exports = (env, argv) => {
   if (argv.mode === 'development') {
     config.devtool = '';
-    config.output.filename = 'dynamic.user.js';
+    config.output.filename = 'script.js';
   }
   if (argv.mode === 'production') {
     config.output.filename = 'dynamic.min.user.js';
