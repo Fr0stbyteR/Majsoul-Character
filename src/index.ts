@@ -460,7 +460,7 @@ const inject = () => {
                             if (skin) {
                                 player.avatar_id = matched[1];
                                 const char = uiscript.UI_Sushe.characters.find(c => c.charid === skin.character_id);
-                                player.character = Object.assign(player.character, { charid: char.charid, exp: 20000, extra_emoji: char.extra_emoji, is_upgraded: true, level: 5, skin: matched[1] });
+                                if (char) player.character = Object.assign(player.character, { charid: char.charid, exp: 20000, extra_emoji: char.extra_emoji, is_upgraded: true, level: 5, skin: matched[1] });
                             } else {
                                 for (const char of uiscript.UI_Sushe.characters) {
                                     const charDef = cfg.item_definition.character.map_[char.charid];
