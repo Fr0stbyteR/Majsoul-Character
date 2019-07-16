@@ -54,9 +54,9 @@ const getCharacter = () => {
     for (let i = 0; i <= 9; i++) {
         const $ = uiscript.UI_Sushe.characters.findIndex(char => char.charid === 200001 + i);
         if ($ === -1) {
-            uiscript.UI_Sushe.characters.push({ charid: 200001 + i, exp: 20000, extra_emoji: [10, 11, 12, 13], is_upgraded: true, level: 5, skin: 400102 + i * 100 });
+            uiscript.UI_Sushe.characters.push({ ...uiscript.UI_Sushe.characters[200001], charid: 200001 + i, exp: 20000, extra_emoji: [10, 11, 12, 13], is_upgraded: true, level: 5, skin: 400102 + i * 100 });
         } else {
-            uiscript.UI_Sushe.characters[$] = { charid: 200001 + i, exp: 20000, extra_emoji: [10, 11, 12, 13], is_upgraded: true, level: 5, skin: 400102 + i * 100 };
+            uiscript.UI_Sushe.characters[$] = { ...uiscript.UI_Sushe.characters[$], charid: 200001 + i, exp: 20000, extra_emoji: [10, 11, 12, 13], is_upgraded: true, level: 5, skin: 400102 + i * 100 };
         }
         uiscript.UI_Sushe.skin_map[400102 + i * 100] = 1;
         uiscript.UI_Sushe.skin_map[400101 + i * 100] = 1;
@@ -97,13 +97,14 @@ const injectChar = (newChar: NewCharacter, $: { $char: number, $sushe: number, $
         return;
     }
     let { $char, $sushe, $skin, $voice } = $; // tslint:disable-line: prefer-const
-    cfg.item_definition.character.map_[newChar.character.id] = newChar.character;
-    cfg.item_definition.character.rows_[$char] = newChar.character;
-    uiscript.UI_Sushe.characters[$sushe] = { charid: newChar.character.id, exp: 20000, extra_emoji: newChar.emoCount > 9 ? Array(newChar.emoCount - 9).fill(0).map((v, i) => i + 9) : [], is_upgraded: true, level: 5, skin: avatar_id === newChar.character.init_skin ? newChar.character.init_skin : newChar.character.full_fetter_skin, views: char_views };
+    const defaultChar = cfg.item_definition.character.map_[200001];
+    cfg.item_definition.character.map_[newChar.character.id] = { ...defaultChar, ...newChar.character };
+    cfg.item_definition.character.rows_[$char] = { ...defaultChar, ...newChar.character };
+    uiscript.UI_Sushe.characters[$sushe] = { charid: newChar.character.id, exp: 20000, extra_emoji: newChar.emoCount > 9 ? Array(newChar.emoCount - 9).fill(0).map((v, i) => i + 9) : [], is_upgraded: true, level: 5, skin: avatar_id === newChar.character.init_skin ? newChar.character.init_skin : newChar.character.full_fetter_skin, views: char_views || [] };
     const defaultSkin = cfg.item_definition.skin.map_[400000];
     if (newChar.skin) {
         $skin++;
-        const skin = { ...defaultSkin, ...newChar.skin }
+        const skin = { ...defaultSkin, ...newChar.skin };
         cfg.item_definition.skin.map_[newChar.skin.id] = skin;
         cfg.item_definition.skin.rows_[$skin] = skin;
         uiscript.UI_Sushe.skin_map[newChar.skin.id] = 1;
