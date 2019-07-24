@@ -87,6 +87,11 @@ const loadRes = (newChar: NewCharacter) => {
     }
     if (newChar.voice) newChar.voice.forEach(voiceDef => voiceDef.path = toURL(window.charMod.serverMap[newChar.character.id], voiceDef.path.split("/").reverse()[0], newChar.character.name, "voice").replace(/\.mp3$/, ""));
 };
+const injectCV = () => {
+    uiscript.UI_Config.Inst.pages = [];
+    uiscript.UI_Config.Inst.panel.getChildByName("CVCenter")._childs[0]._childs.splice(3);
+    uiscript.UI_Config.prototype.onCreate.call(uiscript.UI_Config.Inst);
+};
 /**
  * Add character into definition
  *
@@ -299,7 +304,7 @@ const inject = () => {
                     if (char.fullFetterSkin) $skin++;
                     if (char.voice && char.voice.length) $voice++;
                 }
-                uiscript.UI_Config.Inst.CVclone();
+                injectCV();
                 characterInjected = true;
             }
             if (char_id) uiscript.UI_Sushe.main_character_id = char_id;
@@ -661,7 +666,7 @@ const inject = () => {
     /**
      * Override Config CV Center
      *
-     */
+     *//*
     (() => {
         class Slider {
             bar: Sprite;
@@ -762,7 +767,7 @@ const inject = () => {
             });
             return r;
         };
-    })();
+    })();*/
     /*
     (() => {
         const _ = function (charID) {

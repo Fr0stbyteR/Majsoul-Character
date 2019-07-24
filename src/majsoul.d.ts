@@ -385,19 +385,9 @@ declare class Slider {
 }
 declare class ConfigUI extends MajsoulUI {
     panel: Component;
-    CVbox_templete: CVBoxTemplete;
-    CVboxParent: Component;
-    CV_Cells: Component[];
-    CVvoice: {
-        id: number;
-        slider: Slider;
-        btn_mute: Button;
-        check: Component;
-        img: Component;
-    }[]
     locking: boolean;
-    CVclone(...args: any[]): any;
-    CharacterVocie(...args: any[]): any;
+    pages: Component[];
+    onCreate: any;
     show(...args: any[]): any;
 }
 declare class CVBoxTemplete extends Component {
