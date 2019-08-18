@@ -51,15 +51,16 @@ const SIG_REGEX = /\[([^\[\]]+)\]$/;
 let charactersReady = false;
 let characterInjected = false;
 const getCharacter = () => {
-    for (let i = 0; i <= 9; i++) {
+    for (let i = 0; i <= 16; i++) {
         const $ = uiscript.UI_Sushe.characters.findIndex(char => char.charid === 200001 + i);
         if ($ === -1) {
-            uiscript.UI_Sushe.characters.push({ ...uiscript.UI_Sushe.characters[200001], charid: 200001 + i, exp: 20000, extra_emoji: [10, 11, 12, 13], is_upgraded: true, level: 5, skin: 400102 + i * 100 });
+            uiscript.UI_Sushe.characters.push({ ...uiscript.UI_Sushe.characters[200001], charid: 200001 + i, exp: 20000, extra_emoji: [10, 11, 12, 13], is_upgraded: true, level: 5, skin: 400101 + i * 100 });
         } else {
-            uiscript.UI_Sushe.characters[$] = { ...uiscript.UI_Sushe.characters[$], charid: 200001 + i, exp: 20000, extra_emoji: [10, 11, 12, 13], is_upgraded: true, level: 5, skin: 400102 + i * 100 };
+            uiscript.UI_Sushe.characters[$] = { ...uiscript.UI_Sushe.characters[$], charid: 200001 + i, exp: 20000, extra_emoji: [10, 11, 12, 13], is_upgraded: true, level: 5, skin: 400101 + i * 100 };
         }
-        uiscript.UI_Sushe.skin_map[400102 + i * 100] = 1;
-        uiscript.UI_Sushe.skin_map[400101 + i * 100] = 1;
+    }
+    for (const id in cfg.item_definition.skin.map_) {
+        uiscript.UI_Sushe.skin_map[id as any] = 1;
     }
 };
 const toURL = (server: string, fileName: string, charName: string, type: "emo" | "skin" | "full_fetter_skin" | "voice") => {
