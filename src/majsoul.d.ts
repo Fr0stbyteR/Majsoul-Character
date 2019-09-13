@@ -126,6 +126,13 @@ declare var cfg: {
             get(id: number): SkinDef;
         };
     };
+    character: {
+        emoji: {
+            groups_: { [id: number]: Emoji[] }
+            rows_: Emoji[];
+            getGroup(id: number): Emoji[];
+        }
+    }
     voice: {
         sound: {
             groups_: VoiceDef[][];
@@ -303,6 +310,20 @@ declare class Character {
     level: number;
     skin: number;
     views?: { slot: number, item_id: number }[];
+}
+declare class Emoji {
+    after_unlock_desc_chs: string;
+    after_unlock_desc_en: string;
+    after_unlock_desc_jp: string;
+    charid: number;
+    sub_id: number;
+    type: number;
+    unlock_desc_chs: string;
+    unlock_desc_en: string;
+    unlock_desc_jp: string;
+    unlock_param: number[];
+    unlock_type: number;
+    view: string;
 }
 declare class PlayerBaseView {
     account_id: number;

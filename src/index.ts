@@ -106,6 +106,7 @@ const injectChar = (newChar: NewCharacter, $: { $char: number, $sushe: number, $
     const defaultChar = cfg.item_definition.character.map_[200001];
     cfg.item_definition.character.map_[newChar.character.id] = { ...defaultChar, ...newChar.character };
     cfg.item_definition.character.rows_[$char] = { ...defaultChar, ...newChar.character };
+    cfg.character.emoji.groups_[newChar.character.id] = [];
     uiscript.UI_Sushe.characters[$sushe] = { charid: newChar.character.id, exp: 20000, extra_emoji: newChar.emoCount > 9 ? Array(newChar.emoCount - 9).fill(0).map((v, i) => i + 9) : [], is_upgraded: true, level: 5, skin: avatar_id === newChar.character.init_skin ? newChar.character.init_skin : newChar.character.full_fetter_skin, views: char_views || [] };
     const defaultSkin = cfg.item_definition.skin.map_[400000];
     if (newChar.skin) {
