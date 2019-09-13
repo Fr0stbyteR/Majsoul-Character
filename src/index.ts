@@ -63,7 +63,7 @@ const getCharacter = () => {
         uiscript.UI_Sushe.skin_map[id as any] = 1;
     }
 };
-const toURL = (server: string, fileName: string, charName: string, type: "emo" | "skin" | "full_fetter_skin" | "voice") => {
+const toURL = (server: string, fileName: string, charName: string, type: "emo" | "skin" | "full_fetter_skin" | "voice" | string) => {
     return server + charName + "/" + type + "/" + fileName + (type === "voice" ? ".mp3" : ".png");
 };
 /**
@@ -86,6 +86,13 @@ const loadRes = (newChar: NewCharacter) => {
             injectedImg[prefix + newChar.fullFetterSkin.path + "/" + key + ".png"] = toURL(window.charMod.serverMap[newChar.character.id], key, newChar.character.name, "full_fetter_skin");
         }
     }
+    if (newChar.extraSkins) {
+        for (const name in newChar.extraSkins) {
+            for (const key of ["bighead", "full", "half", "smallhead", "waitingroom"]) {
+                injectedImg[prefix + newChar.extraSkins[name].path + "/" + key + ".png"] = toURL(window.charMod.serverMap[newChar.character.id], key, newChar.character.name, name);
+            }
+        }
+    }
     if (newChar.voice) newChar.voice.forEach(voiceDef => voiceDef.path = toURL(window.charMod.serverMap[newChar.character.id], voiceDef.path.split("/").reverse()[0], newChar.character.name, "voice").replace(/\.mp3$/, ""));
 };
 const injectCV = () => {
@@ -106,8 +113,21 @@ const injectChar = (newChar: NewCharacter, $: { $char: number, $sushe: number, $
     const defaultChar = cfg.item_definition.character.map_[200001];
     cfg.item_definition.character.map_[newChar.character.id] = { ...defaultChar, ...newChar.character };
     cfg.item_definition.character.rows_[$char] = { ...defaultChar, ...newChar.character };
-    cfg.character.emoji.groups_[newChar.character.id] = [];
-    uiscript.UI_Sushe.characters[$sushe] = { charid: newChar.character.id, exp: 20000, extra_emoji: newChar.emoCount > 9 ? Array(newChar.emoCount - 9).fill(0).map((v, i) => i + 9) : [], is_upgraded: true, level: 5, skin: avatar_id === newChar.character.init_skin ? newChar.character.init_skin : newChar.character.full_fetter_skin, views: char_views || [] };
+    cfg.character.emoji.groups_[newChar.character.id] = newChar.emoCount > 9 ? Array(newChar.emoCount - 9).fill(0).map<Emoji>((v, i) => ({
+        after_unlock_desc_chs: "",
+        after_unlock_desc_en: "",
+        after_unlock_desc_jp: "",
+        charid: newChar.character.id,
+        sub_id: i + 9,
+        type: 1,
+        unlock_desc_chs: "缔结契约",
+        unlock_desc_en: "Bond",
+        unlock_desc_jp: "契約を結ぶ",
+        unlock_param: [0, 0, 0, 0],
+        unlock_type: 1,
+        view: ""
+    })) : [];
+    uiscript.UI_Sushe.characters[$sushe] = { charid: newChar.character.id, exp: 20000, extra_emoji: cfg.character.emoji.groups_[newChar.character.id].map(v => v.sub_id), is_upgraded: true, level: 5, skin: avatar_id === newChar.character.init_skin ? newChar.character.init_skin : newChar.character.full_fetter_skin, views: char_views || [] };
     const defaultSkin = cfg.item_definition.skin.map_[400000];
     if (newChar.skin) {
         $skin++;
@@ -122,6 +142,15 @@ const injectChar = (newChar: NewCharacter, $: { $char: number, $sushe: number, $
         cfg.item_definition.skin.map_[newChar.fullFetterSkin.id] = skin;
         cfg.item_definition.skin.rows_[$skin] = skin;
         uiscript.UI_Sushe.skin_map[newChar.fullFetterSkin.id] = 1;
+    }
+    if (newChar.extraSkins) {
+        for (const name in newChar.extraSkins) {
+            $skin++;
+            const skin = { ...defaultSkin, ...newChar.extraSkins[name] };
+            cfg.item_definition.skin.map_[skin.id] = skin;
+            cfg.item_definition.skin.rows_[$skin] = skin;
+            uiscript.UI_Sushe.skin_map[skin.id] = 1;
+        }
     }
     if (newChar.voice && newChar.voice.length) {
         $voice++;

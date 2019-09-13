@@ -3,6 +3,7 @@ declare interface NewCharacter {
     character: CharacterDef,
     skin?: SkinDef,
     fullFetterSkin?: SkinDef,
+    extraSkins?: { [name: string]: SkinDef},
     voice?: VoiceDef[],
     emoCount?: number
 }
