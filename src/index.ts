@@ -333,6 +333,7 @@ const inject = () => {
                     $sushe++;
                     if (char.skin) $skin++;
                     if (char.fullFetterSkin) $skin++;
+                    if (char.extraSkins) $skin += Object.keys(char.extraSkins).length;
                     if (char.voice && char.voice.length) $voice++;
                 }
                 injectCV();
