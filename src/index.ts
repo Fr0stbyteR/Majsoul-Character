@@ -477,7 +477,7 @@ const inject = () => {
     (() => {
         const _ = game.Scene_MJ.prototype.openMJRoom;
         game.Scene_MJ.prototype.openMJRoom = (...args) => {
-            const player_datas = args[0];
+            const player_datas = args[1];
             const step = (player_datas: PlayerBaseView[], index: number): void => {
                 if (index >= player_datas.length) return final();
                 const player = player_datas[index];
